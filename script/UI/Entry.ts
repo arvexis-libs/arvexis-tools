@@ -7,7 +7,7 @@ import { ZhaoChaUIConfig, ZhaoChaUIID } from "../Base/ZhaoChaUIConfig";
 
 const { ccclass, property } = _decorator;
 
-export namespace ZhaoCha {
+namespace ZhaoCha {
     @ccclass('ZhaoCha/Entry')
     export class Entry extends CCComp {
     
@@ -27,5 +27,7 @@ export namespace ZhaoCha {
             ZhaoChaUIConfig.init();
             oops.gui.open(ZhaoChaUIID.Main);
         }
+
+
     }
 }
