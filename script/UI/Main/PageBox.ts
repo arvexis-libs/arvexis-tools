@@ -3,7 +3,7 @@ import { CCComp } from "db://oops-framework/module/common/CCComp";
 import { SortedMap } from "../../../../../script/modules/Utils/collectionExtend/SortedMap";
 import { PagePanel } from "./PagePanel";
 import { TrZhaoChaStage } from "../../../../../script/game/schema/schema";
-import { ZhaoChaData } from "../../Data/ZhaoChaData";
+import { ZhaoChaMgr } from "../../Manager/ZhaoChaMgr";
 const { ccclass, property } = _decorator;
 
 export enum ScrollDirection
@@ -56,7 +56,7 @@ class PageConfig
     init() {
         if (this.isInit) return;
         // 
-        const data = ZhaoChaData.getInstance().stageList;
+        const data = ZhaoChaMgr.getInstance().stageList;
         this.count = data.length;
         //  
         this.pageTotal = Math.ceil(this.count / this.pageSize);
@@ -125,7 +125,7 @@ export class PageBox extends CCComp {
         const content = this.viewConfig.scrollView.content;
         if (!content) return;
 
-        console.log(`[ZhaoCha]move: ${this.scrollDirectionString(this.viewConfig.scrollDirection)}`);
+        console.log(`[zc]move: ${this.scrollDirectionString(this.viewConfig.scrollDirection)}`);
         // panel
         this.viewConfig.pagePanels = [];
         for (let i = 0; i < content.children.length; i++) {
@@ -141,13 +141,13 @@ export class PageBox extends CCComp {
             //  0
             if (this.viewConfig.scrollDirection == ScrollDirection.Left && i == 0) {
                 siblingIndex += this.viewConfig.pageTotal;
-                // console.log(`[ZhaoCha] ${panel?.node.name} -> ${siblingIndex}`);
+                // console.log(`[zc] ${panel?.node.name} -> ${siblingIndex}`);
             }
 
             //  N
             if (this.viewConfig.scrollDirection == ScrollDirection.Right && i == this.viewConfig.pagePanels.length - 1) {
                 siblingIndex -= this.viewConfig.pageTotal;
-                // console.log(`[ZhaoCha] ${panel?.node.name} -> ${siblingIndex}`);
+                // console.log(`[zc] ${panel?.node.name} -> ${siblingIndex}`);
             }
             
             childs.set(siblingIndex, panel);
@@ -157,7 +157,7 @@ export class PageBox extends CCComp {
         let viewIndex = 0;
         childs.forEach((panel, siblingIndex) => {
             if (!panel) return;
-            // console.log(`[ZhaoCha], siblingIndex:${siblingIndex}`);
+            // console.log(`[zc], siblingIndex:${siblingIndex}`);
             const pos = new Vec3((viewIndex - 1) * this.viewConfig.pagwSize, 0, 0);
             const node = panel.node;
             node.setPosition(pos);

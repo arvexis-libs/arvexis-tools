@@ -314,8 +314,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 25.5830078125,
-      "height": 50.4
+      "width": 22.634994506835938,
+      "height": 55.44
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -353,14 +353,17 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 46,
-    "_fontSize": 46,
+    "_actualFontSize": 45,
+    "_fontSize": 45,
     "_fontFamily": "Arial",
-    "_lineHeight": 40,
+    "_lineHeight": 44,
     "_overflow": 0,
-    "_enableWrapText": true,
-    "_font": null,
-    "_isSystemFontUsed": true,
+    "_enableWrapText": false,
+    "_font": {
+      "__uuid__": "ad1cda1e-5a85-4a20-b8e3-663b2b1cfe24",
+      "__expectedType__": "cc.TTFFont"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_isItalic": false,
     "_isBold": false,
@@ -593,7 +596,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -242.01750000000004,
+      "x": -282.01750000000004,
       "y": 740,
       "z": 0
     }
@@ -705,7 +708,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 213.9474999999999,
+      "x": 273.9474999999999,
       "y": 740,
       "z": 0
     }
@@ -817,8 +820,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -242.0175,
-      "y": 280,
+      "x": -282.01750000000004,
+      "y": 260,
       "z": 0
     }
   },
@@ -929,8 +932,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 213.94749999999993,
-      "y": 280,
+      "x": 273.9474999999999,
+      "y": 260,
       "z": 0
     }
   },
@@ -1041,8 +1044,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": -242.0175,
-      "y": -180,
+      "x": -282.01750000000004,
+      "y": -220,
       "z": 0
     }
   },
@@ -1153,8 +1156,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 213.94749999999993,
-      "y": -180,
+      "x": 273.9474999999999,
+      "y": -220,
       "z": 0
     }
   },
@@ -1273,12 +1276,12 @@
       "height": 40
     },
     "_startAxis": 0,
-    "_paddingLeft": 40,
+    "_paddingLeft": 0,
     "_paddingRight": 0,
     "_paddingTop": 0,
     "_paddingBottom": 0,
-    "_spacingX": 60,
-    "_spacingY": 20,
+    "_spacingX": 160,
+    "_spacingY": 40,
     "_verticalDirection": 1,
     "_horizontalDirection": 0,
     "_constraint": 0,

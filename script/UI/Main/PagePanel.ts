@@ -43,16 +43,16 @@ export class PagePanel extends CCComp {
         const page = this.pageBox.pageConfig.curPage + this.index - 1;
         this.page = this.pageBox.getFinalPage(page);
         if (prePage == this.page) return;
-        console.log(`[ZhaoCha]PagePanel refresh, index:${this.index}, page: ${prePage} -> ${this.page}`);
+        console.log(`[zc]PagePanel refresh, index:${this.index}, page: ${prePage} -> ${this.page}`);
         this.viewConfig.page.getComponent(Label)!.string = this.page.toString();
 
         const pageData = this.pageBox.pageConfig.pageData.get(this.page - 1);
         if (!pageData) 
         {
-            console.error(`[ZhaoCha]pageData is null, page: ${this.page - 1}`);
+            console.error(`[zc]pageData is null, page: ${this.page - 1}`);
             return;
         }
-        for (let i = 0; i < pageData.length; i++) {
+        for (let i = 0; i < this.viewConfig.content.children.length; i++) {
             
             const cover = this.viewConfig.content.children[i].getComponent(StageCover)!;
             let stage : TrZhaoChaStage = null!;
