@@ -10,7 +10,7 @@ export enum ZhaoChaUIID {
 
 export class ZhaoChaUIConfig {
     static config: { [key: number]: UIConfig } = {
-        [ZhaoChaUIID.Main]: { layer: LayerType.UI, prefab: "UIPrefab/Main", bundle: "ZhaoCha" },
+        [ZhaoChaUIID.Main]: { layer: LayerType.UI, prefab: "UIPrefab/Main/Main", bundle: "ZhaoCha" },
     }
 
     static init() {

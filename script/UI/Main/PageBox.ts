@@ -2,6 +2,8 @@ import { _decorator, ScrollView, Vec3, Node } from "cc";
 import { CCComp } from "db://oops-framework/module/common/CCComp";
 import { SortedMap } from "../../../../../script/modules/Utils/collectionExtend/SortedMap";
 import { PagePanel } from "./PagePanel";
+import { TrZhaoChaStage } from "../../../../../script/game/schema/schema";
+import { ZhaoChaData } from "../../Data/ZhaoChaData";
 const { ccclass, property } = _decorator;
 
 export enum ScrollDirection
@@ -35,10 +37,42 @@ class ViewConfig
 class PageConfig
 {
     @property({type: Number, tooltip: ""})
-    pageTotal: number = 42;
+    pageTotal: number = 3;
 
     @property({type: Number, tooltip: ""})
     curPage: number = 1;
+
+    @property({type: Number, tooltip: ""})
+    pageSize: number = 6;
+
+    @property({type: Number, tooltip: ""})
+    count: number = 0;
+
+    @property({type: Boolean, tooltip: ""})
+    isInit: boolean = false;
+
+    pageData: Map<number, [TrZhaoChaStage]> = new Map();
+
+    init() {
+        if (this.isInit) return;
+        // 
+        const data = ZhaoChaData.getInstance().stageList;
+        this.count = data.length;
+        //  
+        this.pageTotal = Math.ceil(this.count / this.pageSize);
+        // push
+        this.pageData.clear();
+        for (let i = 0; i < this.count; i++) {
+            const page = Math.floor(i / this.pageSize);
+            let pageArr = this.pageData.get(page);
+            if (!pageArr) {
+                pageArr = [];
+                this.pageData.set(page, pageArr);
+            }
+            pageArr.push(data[i]);
+        }
+        this.isInit = true;
+    }
 }
 
 
@@ -55,6 +89,9 @@ export class PageBox extends CCComp {
 
     start() {
         this.viewConfig.scrollView.node.on(ScrollView.EventType.SCROLL_ENDED, this.onEnd, this);
+        // 
+        this.pageConfig.init();
+        // 
         this.move();
     }
 
