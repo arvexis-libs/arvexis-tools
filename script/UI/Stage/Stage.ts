@@ -3,7 +3,7 @@ import { TrZhaoChaStage } from '../../../../../script/game/schema/schema';
 import { oops } from "db://oops-framework/core/Oops";
 import { Label } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
-import { ZhaoChaUIID } from '../../Common/ZhaoChaUIConfig';
+import { ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 const { ccclass, property } = _decorator;
 
 

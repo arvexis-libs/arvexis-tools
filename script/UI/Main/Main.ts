@@ -6,7 +6,7 @@ import ConfigManager from "../../../../../script/game/manager/Config/ConfigManag
 import { TrZhaoChaStage } from "../../../../../script/game/schema/schema";
 
 import { ZhaoChaMgr } from "../../Manager/ZhaoChaMgr";
-import { ZhaoChaConfig, ZhaoChaUIID } from "../../Common/ZhaoChaUIConfig";
+import { ZhaoChaConfig, ZhaoChaUIID } from "../../Common/ZhaoChaConfig";
 const { ccclass, property } = _decorator;
 
 namespace ZhaoCha {

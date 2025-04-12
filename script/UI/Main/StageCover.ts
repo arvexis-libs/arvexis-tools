@@ -6,7 +6,7 @@ import { CCComp } from '../../../../../../extensions/oops-plugin-framework/asset
 import { oops } from '../../../../../../extensions/oops-plugin-framework/assets/core/Oops';
 import { SpriteFrame } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
-import { ZhaoChaConfig, ZhaoChaUIID } from '../../Common/ZhaoChaUIConfig';
+import { ZhaoChaConfig, ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 const { ccclass, property } = _decorator;
 
 /*  */

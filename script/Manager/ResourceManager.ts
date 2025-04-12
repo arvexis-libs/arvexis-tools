@@ -1,6 +1,6 @@
 import { Component, Asset } from "cc";
 import { _decorator } from "cc";
-import { ZhaoChaConfig } from "../Common/ZhaoChaUIConfig";
+import { ZhaoChaConfig } from "../Common/ZhaoChaConfig";
 
 import { oops } from "db://oops-framework/core/Oops";
 import { AssetType } from "db://oops-framework/core/common/loader/ResLoader";
