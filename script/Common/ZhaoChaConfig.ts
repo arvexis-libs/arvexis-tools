@@ -1,5 +1,5 @@
-import { oops } from "../../../../../extensions/oops-plugin-framework/assets/core/Oops";
-import { LayerType, UIConfig } from "../../../../../extensions/oops-plugin-framework/assets/core/gui/layer/LayerManager";
+import { oops } from "db://oops-framework/core/Oops";
+import { LayerType, UIConfig } from "db://oops-framework/core/gui/layer/LayerManager";
 
 /**  */
 export enum ZhaoChaUIID {
