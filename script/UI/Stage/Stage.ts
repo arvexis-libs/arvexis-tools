@@ -35,6 +35,7 @@ export class Stage extends Component {
         // 
         oops.message.on(ZhaoChaEvent.COUNT_DOWN_END, this.onCountDownEnd, this);
         oops.message.on(ZhaoChaEvent.EXIT, this.onExit, this);
+        oops.message.on(ZhaoChaEvent.WIN, this.onWin, this);
         // title
         this.title.string = `${this.config.Name} ${this.config.Title}`;
         // 
@@ -54,6 +55,7 @@ export class Stage extends Component {
     onDestroy(): void {
         oops.message.off(ZhaoChaEvent.COUNT_DOWN_END, this.onCountDownEnd, this);
         oops.message.off(ZhaoChaEvent.EXIT, this.onExit, this);
+        oops.message.off(ZhaoChaEvent.WIN, this.onWin, this);
     }
 
     /*  */
@@ -63,12 +65,18 @@ export class Stage extends Component {
     }
     /*  */
     onCountDownEnd(): void {
-        this.onExit();
+        // this.onExit();
+        oops.gui.open(ZhaoChaUIID.FailWindow);
     }
 
     /*  */
     onExit(): void {
         console.log("[zc] UIZhaoCha, Stage onExit");
         oops.gui.remove(ZhaoChaUIID.Stage);
+    }
+
+    onWin(): void {
+        console.log("[zc] UIZhaoCha, Stage onWin");
+        oops.gui.open(ZhaoChaUIID.WinWindow);
     }
 }
