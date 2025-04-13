@@ -5,6 +5,9 @@ import { Label } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
 import { ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 import { FindList } from './FindList';
+import { Prefab } from 'cc';
+import { instantiate } from 'cc';
+import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
 const { ccclass, property } = _decorator;
 
 
@@ -26,14 +29,46 @@ export class Stage extends Component {
         return ZhaoChaMgr.getInstance().curConfig;
     }
 
-    start() {
-        this.title.string = this.config.Name;
+    async start() {
+        // loading 
+        this.loadNode.active = true;
+        // 
+        oops.message.on(ZhaoChaEvent.COUNT_DOWN_END, this.onCountDownEnd, this);
+        oops.message.on(ZhaoChaEvent.EXIT, this.onExit, this);
+        // title
+        this.title.string = `${this.config.Name} ${this.config.Title}`;
+        // 
+        const prefabUrl = `StagePrefab/${this.config.Prefab}`;
+        const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(prefabUrl, Prefab);
+        if (!prefab) {
+            console.error(`[zc] Stage, start, prefab not found, prefabUrl:${prefabUrl}`);
+            return;
+        }
+        // 
+        const node = instantiate(prefab);
+        node.setParent(this.content);
+        // load
         this.loadNode.active = false;
     }
 
-    onClose(): void {
-        console.log("[zc] UIZhaoCha, Stage onClose");
-        this.findList.clean();
+    onDestroy(): void {
+        oops.message.off(ZhaoChaEvent.COUNT_DOWN_END, this.onCountDownEnd, this);
+        oops.message.off(ZhaoChaEvent.EXIT, this.onExit, this);
+    }
+
+    /*  */
+    openCloseWindow(): void {
+        console.log("[zc] UIZhaoCha, Stage openCloseWindow");
+        oops.gui.open(ZhaoChaUIID.CloseWindow);
+    }
+    /*  */
+    onCountDownEnd(): void {
+        this.onExit();
+    }
+
+    /*  */
+    onExit(): void {
+        console.log("[zc] UIZhaoCha, Stage onExit");
         oops.gui.remove(ZhaoChaUIID.Stage);
     }
 }

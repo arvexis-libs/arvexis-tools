@@ -7,6 +7,7 @@ import { ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
 import { Sprite } from 'cc';
 import { SpriteFrame } from 'cc';
+import { FindList } from './FindList';
 const { ccclass, property } = _decorator;
 
 
@@ -24,11 +25,16 @@ export class FindItem extends Component {
     start() {
         this.label.node.active = false;
         this.sprite.node.active = false;
+        oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
+    }
+
+    protected onDestroy(): void {
+        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
     }
 
     async refresh(id: number) {
         this.id = id;
-        const config = ZhaoChaMgr.getInstance().curItems.find(item => item.Id == id)!;
+        const config = ZhaoChaMgr.getInstance().curItems.find(item => item.ItemId == id)!;
         if (!config) {
             console.error(`[zc] FindItem, refresh, config not found, id:${id}`);
             return;
@@ -43,5 +49,11 @@ export class FindItem extends Component {
         // active
         this.label.node.active = true;
         this.sprite.node.active = true;
+    }
+
+    onRestart(): void {
+        this.id = 0;
+        this.label.node.active = false;
+        this.sprite.node.active = false;
     }
 }
