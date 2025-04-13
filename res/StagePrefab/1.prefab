@@ -212,7 +212,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 1920
+      "height": 1000
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -466,7 +466,7 @@
     "__prefab": {
       "__id__": 17
     },
-    "itemId": 1,
+    "itemId": 10101,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -639,7 +639,7 @@
     "__prefab": {
       "__id__": 27
     },
-    "itemId": 2,
+    "itemId": 10102,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -812,7 +812,7 @@
     "__prefab": {
       "__id__": 37
     },
-    "itemId": 3,
+    "itemId": 10103,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -951,7 +951,7 @@
     "__prefab": {
       "__id__": 45
     },
-    "itemId": 4,
+    "itemId": 10104,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -1124,7 +1124,7 @@
     "__prefab": {
       "__id__": 55
     },
-    "itemId": 5,
+    "itemId": 10105,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -1297,7 +1297,7 @@
     "__prefab": {
       "__id__": 65
     },
-    "itemId": 6,
+    "itemId": 10106,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -1370,8 +1370,6 @@
       "__id__": 0
     },
     "fileId": "99HKM7PP1BjJS46Y/Rac5u",
-    "instance": null,
-    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -1470,7 +1468,7 @@
     "__prefab": {
       "__id__": 75
     },
-    "itemId": 7,
+    "itemId": 10107,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -1660,7 +1658,7 @@
     "__prefab": {
       "__id__": 85
     },
-    "itemId": 8,
+    "itemId": 10108,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -1850,7 +1848,7 @@
     "__prefab": {
       "__id__": 95
     },
-    "itemId": 9,
+    "itemId": 10109,
     "collider": null,
     "nodeName": "",
     "isComplete": false,
@@ -1959,7 +1957,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 1920
+      "height": 1000
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2036,7 +2034,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 1920
+      "height": 1000
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2094,7 +2092,6 @@
       "__id__": 0
     },
     "fileId": "b80qmygj1PSaxBGWI0PQAZ",
-    "instance": null,
     "targetOverrides": null
   }
 ]

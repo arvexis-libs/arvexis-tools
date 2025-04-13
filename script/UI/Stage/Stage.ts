@@ -5,8 +5,6 @@ import { Label } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
 import { ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 import { FindList } from './FindList';
-import { Prefab } from 'cc';
-import { instantiate } from 'cc';
 const { ccclass, property } = _decorator;
 
 
@@ -28,19 +26,8 @@ export class Stage extends Component {
         return ZhaoChaMgr.getInstance().curConfig;
     }
 
-    async start() {
+    start() {
         this.title.string = this.config.Name;
-        // 
-        const prefabUrl = `StagePrefab/${this.config.Prefab}`;
-        const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(prefabUrl, Prefab);
-        if (!prefab) {
-            console.error(`[zc] Stage, start, prefab not found, prefabUrl:${prefabUrl}`);
-            return;
-        }
-        // 
-        const node = instantiate(prefab);
-        node.setParent(this.content);
-        // load
         this.loadNode.active = false;
     }
 

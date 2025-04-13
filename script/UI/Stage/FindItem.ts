@@ -28,7 +28,7 @@ export class FindItem extends Component {
 
     async refresh(id: number) {
         this.id = id;
-        const config = ZhaoChaMgr.getInstance().curItems.find(item => item.ItemId == id)!;
+        const config = ZhaoChaMgr.getInstance().curItems.find(item => item.Id == id)!;
         if (!config) {
             console.error(`[zc] FindItem, refresh, config not found, id:${id}`);
             return;
