@@ -29,5 +29,6 @@ export class ZhaoChaConfig {
 
     static remove() {
         oops.gui.removeConfig(this.config);
+        this._isInit = false;
     }
 }
