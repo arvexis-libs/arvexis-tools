@@ -38,7 +38,6 @@ export class FindList extends Component {
 
     onDestroy(): void {
         oops.message.off(ZhaoChaEvent.ITEM_CLICK, this.onItemClick, this);
-        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
         console.log("[zc] FindList, onDestroy");
     }
 
@@ -118,8 +117,6 @@ export class FindList extends Component {
 
     refreshProgress(findNum: number): void {
         this.progress.string = `${findNum}/${this.count}`;
-        if (findNum >= this.count) {
-            oops.message.dispatchEvent(ZhaoChaEvent.WIN, {});
-        }
+        // console.log(`[zc] FindList, refreshProgress, ${this.progress.string}`);
     }
 }

@@ -4,9 +4,6 @@ import { BoxCollider2D } from 'cc';
 import { _decorator, Component, Node } from 'cc';
 import { oops } from 'db://oops-framework/core/Oops';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
-import { Vec2 } from 'cc';
-import { UITransform } from 'cc';
-import { Size } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/ItemBase')
@@ -80,10 +77,5 @@ export class ItemBase extends Component {
     /*   */
     complete(): void {
         // console.log(`[zc] ItemBase, complete, name:${this.nodeName}, id:${this.itemId}`);
-    }
-
-    /*  */
-    get size(): Size {
-        return this.node.getComponent(UITransform)!.contentSize;
     }
 }
