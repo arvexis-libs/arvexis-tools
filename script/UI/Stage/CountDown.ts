@@ -24,36 +24,23 @@ export class CountDown extends Component {
     isActive: boolean = true;
 
     start() {
-        oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
-        this.reg();
+        // 
+        oops.message.on(ZhaoChaEvent.RESUME, this.onResume, this);
+        oops.message.on(ZhaoChaEvent.RESTART, this.onContinue, this);
+        oops.message.on(ZhaoChaEvent.CONTINUE, this.onContinue, this);
         // LIMIT_TIME
         this.limitTime = ZhaoChaMgr.getInstance().curConfig.LimitTime;
+        this.nextFunc = this.next.bind(this);
+        oops.timer.schedule(this.nextFunc, this.interval, macro.REPEAT_FOREVER, 0)!;
         console.log(`[zc] CountDown, start, LimitTime:${this.limitTime}`);
         this.refresh();
-        // active
-        this.isActive = true;
     }
 
     protected onDestroy(): void {
-        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
         this.stop();
     }
 
-    reg() {
-        this.nextFunc = this.next.bind(this);
-        // event
-        oops.message.on(ZhaoChaEvent.RESUME, this.onResume, this);
-        oops.message.on(ZhaoChaEvent.CONTINUE, this.onContinue, this);
-        // timer
-        oops.timer.schedule(this.nextFunc, this.interval, macro.REPEAT_FOREVER, 0)!;
-    }
-
     stop() {
-        // event
-        oops.message.off(ZhaoChaEvent.RESUME, this.onResume, this);
-        // oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
-        oops.message.off(ZhaoChaEvent.CONTINUE, this.onContinue, this);
-        // timer
         oops.timer.unschedule(this.nextFunc);
         console.log(`[zc] CountDown, stop, LimitTime:${this.limitTime}`);
     }
@@ -79,14 +66,5 @@ export class CountDown extends Component {
 
     onContinue(): void {
         this.isActive = true;
-    }
-
-    onRestart(): void {
-        this.stop();
-        this.limitTime = ZhaoChaMgr.getInstance().curConfig.LimitTime;
-        console.log(`[zc] CountDown, onRestart, LimitTime:${this.limitTime}`);
-        this.refresh();
-        this.onContinue();
-        this.reg();
     }
 }
