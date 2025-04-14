@@ -11,4 +11,6 @@ export class ZhaoChaEvent {
     static readonly CONTINUE = "continue";
     /**  */
     static readonly RESUME = "resume";
+    /**  */
+    static readonly WIN = "win";
 }

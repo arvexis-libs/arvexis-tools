@@ -7,6 +7,8 @@ export enum ZhaoChaUIID {
     EntryPanel,
     Stage,
     CloseWindow,
+    FailWindow,
+    WinWindow,
 }
 
 
@@ -18,6 +20,8 @@ export class ZhaoChaConfig {
         [ZhaoChaUIID.EntryPanel]: { layer: LayerType.UI, prefab: "UIPrefab/Entry/EntryPanel", bundle: "ZhaoCha" },
         [ZhaoChaUIID.Stage]: { layer: LayerType.UI, prefab: "UIPrefab/Stage/StageMain", bundle: "ZhaoCha" },
         [ZhaoChaUIID.CloseWindow]: { layer: LayerType.UI, prefab: "UIPrefab/Stage/CloseWindow", bundle: "ZhaoCha" },
+        [ZhaoChaUIID.FailWindow]: { layer: LayerType.UI, prefab: "UIPrefab/Stage/FailWindow", bundle: "ZhaoCha" },
+        [ZhaoChaUIID.WinWindow]: { layer: LayerType.UI, prefab: "UIPrefab/Stage/WinWindow", bundle: "ZhaoCha" },
     }
 
     /**  */
