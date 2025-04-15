@@ -75,6 +75,10 @@ export class Talk extends Component {
         // this.node.getComponent(UITransform)!.height = this.calHeight;
         // timer
         this.destroyNodeFunction = this.destroyNode.bind(this);
+        // time 3
+        if (time < 3) {
+            time = 3;
+        }
         oops.timer.scheduleOnce(this.destroyNodeFunction, time);
     }
 
