@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
-import { oops } from '../../../../../../extensions/oops-plugin-framework/assets/core/Oops';
+import { oops } from 'db://oops-framework/core/Oops';
 import { ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 const { ccclass, property } = _decorator;
 

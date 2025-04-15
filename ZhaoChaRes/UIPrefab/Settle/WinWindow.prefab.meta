@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "143728bd-f159-42be-bee8-98773331ab01",
+  "uuid": "194e26c6-9d83-4828-97e8-2e3a65b04145",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "StageCover"
+    "syncNodeName": "WinWindow"
   }
 }
