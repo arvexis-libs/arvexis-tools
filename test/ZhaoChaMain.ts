@@ -39,9 +39,7 @@ export class ZhaoChaMain extends Root {
     }
 
     private onInitResComplete(event: string, ...args: any) {
-        console.log("InitResComplete 1");
-        ZhaoChaConfig.init();
+        ZhaoChaConfig.getInstance().init();
         oops.gui.open(ZhaoChaUIID.EntryPanel);
-        console.log("InitResComplete 2");
     }
 }
