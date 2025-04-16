@@ -47,6 +47,7 @@ export class Stage extends Component {
         this.loadNode.active = false;
     }
 
+    /*  */
     async load(): Promise<void> {
         const prefabUrl = `StagePrefab/${this.config.Prefab}`;
         const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(prefabUrl, Prefab);
@@ -83,11 +84,13 @@ export class Stage extends Component {
         oops.gui.remove(ZhaoChaUIID.Stage);
     }
 
+    /*  */
     onWin(): void {
         console.log("[zc] UIZhaoCha, Stage onWin");
         oops.gui.open(ZhaoChaUIID.WinWindow);
     }
 
+    /**  */
     onRestart(): void {
         console.log("[zc] UIZhaoCha, Stage onRestart");
         if (this.loadedStage) {

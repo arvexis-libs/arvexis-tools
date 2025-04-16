@@ -30,6 +30,7 @@ export class ItemBase extends Component {
     @property(Boolean)
     isComplete: boolean = false;
 
+
     start() {
         // nodeName
         if (this.nodeName == "") {
