@@ -4,6 +4,7 @@
  */
 import { _decorator, Component, Node, UITransform, Prefab, instantiate, Collider2D, BoxCollider2D } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
+import { DragItem } from './DragItem';
 const { ccclass, property } = _decorator;
 
 @ccclass('DragDrop/Instance')
@@ -14,7 +15,17 @@ export class DragInstance extends Component {
     collider: Collider2D = null!;
 
     async start() {
+        let config = ZhaoChaMgr.getInstance().getDragInstanceList(this.instanceId);
+        if (!config) {
+            console.error(`[zc]DragInstance: ID ${this.instanceId} `);
+            return;
+        }
         this.collider = this.node.getComponent(Collider2D)!;
+        if (!this.collider) {
+            console.error(`[zc]DragInstance: ID ${this.instanceId} `);
+            return;
+        }
+        // 
         let width = 0;
         let height = 0;
         if (this.collider && (this.collider instanceof BoxCollider2D)) {
@@ -27,17 +38,18 @@ export class DragInstance extends Component {
                 height = uiTrans.contentSize.height;
             }
         }
-
-        let list = ZhaoChaMgr.getInstance().getDragInstanceList(this.instanceId);
-        for (let i = 0; i < list.length; i++) {
-            let item = list[i];
+        for (let i = 0; i < config.Num; i++) {
             const prefab = await ZhaoChaMgr.getInstance().resourceManager
-            .loadAsync(`Common/DragItem_${item.DragItemType}`, Prefab);
+            .loadAsync(`Common/DragItem_${config.DragItemType}`, Prefab);
             const node = instantiate(prefab);
             this.node.addChild(node);
             const randomX = Math.random() * width - width / 2;
             const randomY = Math.random() * height - height / 2;
             node.setPosition(randomX, randomY);
+            // init
+            const dragItem = node.getComponent(DragItem)!;
+            dragItem.init(config, this.instanceId * 100 + i);
         }
+        this.node.name = `DragInstance_${this.instanceId}`;
     }
 }

@@ -7,29 +7,40 @@ const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Mgr')
 export class ZhaoChaMgr extends CCComp {
+
+    @property(Number)
+    private id: number = 0;
+
     reset(): void {
         throw new Error("Method not implemented.");
     }
     private static _instance: ZhaoChaMgr;
     public static getInstance(): ZhaoChaMgr {
-        if (!this._instance) {
+        if (!ZhaoChaMgr._instance) {
             throw new Error("[zc] ZhaoChaMgr not found");
         }
-        return this._instance;
+        // console.log(`[zc] ZhaoChaMgr getInstance, id: ${ZhaoChaMgr._instance.id}`);
+        return ZhaoChaMgr._instance;
     }
+
     @property(ResourceManager)
-    public resourceManager: ResourceManager = new ResourceManager();
+    public resourceManager: ResourceManager = null!;
 
     onLoad(): void {
+        this.id = Math.floor(Math.random() * 9000) + 1000;
+        this.resourceManager = new ResourceManager(this.id);
         ZhaoChaMgr._instance = this.node.getComponent(ZhaoChaMgr)!;
     }
 
     onDestroy(): void {
+        this.id = 0;
         // stage
         this._stageList = [];
         // resource
         this.resourceManager?.clear();
         this.resourceManager = null!;
+        // instance
+        ZhaoChaMgr._instance = null!;
     }
 
     //#region 
@@ -71,10 +82,10 @@ export class ZhaoChaMgr extends CCComp {
         return list;
     }
     /** ID */
-    public getDragInstanceList(instanceId: number): TrZhaoChaDragItem[] {
+    public getDragInstanceList(instanceId: number): TrZhaoChaDragItem {
         let list = this.dragInstanceList;
-        list.filter(item => item.InstanceId == instanceId);
-        return list;
+        let config =  list.find(item => item.InstanceId == instanceId)!;
+        return config;
     }
     //#endregion
 }
