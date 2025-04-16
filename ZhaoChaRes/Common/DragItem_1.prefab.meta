@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "1ebb32cd-bb1e-41df-bc17-92c1ec82d346",
+  "uuid": "ed5f8b4e-044e-4c04-b1ab-bb7aab546fdb",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "2"
+    "syncNodeName": "DragItem_1"
   }
 }

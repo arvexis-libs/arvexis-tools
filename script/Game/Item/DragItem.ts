@@ -11,7 +11,7 @@ import { DropZone } from './DropZone';
 const { ccclass, property } = _decorator;
 
 @ccclass('DragDrop/Item')
-export class DraggableItem extends Component {
+export class DragItem extends Component {
     @property({ type: Number, displayName: 'DragId' })
     dragId: number = 0;
 
