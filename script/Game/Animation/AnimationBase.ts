@@ -18,6 +18,7 @@ export class AnimationBase extends Component {
     @property(String)
     animationQueue: string[] = [];
 
+    @property({type: AnimationType})
     animationType: AnimationType = AnimationType.None;
 
     @property({type: Number})
