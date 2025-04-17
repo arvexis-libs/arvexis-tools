@@ -7,12 +7,6 @@ import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
 import { Vec2 } from 'cc';
 import { UITransform } from 'cc';
 import { Size } from 'cc';
-import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
-import { NodeHelper } from '../../../../../script/modules/Utils/NodeExtend/NodeHelper';
-import { Stage } from '../../UI/Stage/Stage';
-import { instantiate } from 'cc';
-import { Prefab } from 'cc';
-import { Talk } from '../Talk/Talk';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/ItemBase')
@@ -29,7 +23,6 @@ export class ItemBase extends Component {
     /**  */
     @property(Boolean)
     isComplete: boolean = false;
-
 
     start() {
         // nodeName
@@ -48,6 +41,7 @@ export class ItemBase extends Component {
         this.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(Node.EventType.MOUSE_DOWN, this.onClick, this);
+        oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
         this.onStart();
     }
 
@@ -55,6 +49,7 @@ export class ItemBase extends Component {
         this.node.off(Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.off(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.off(Node.EventType.MOUSE_DOWN, this.onClick, this);
+        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
     }
 
     update(deltaTime: number) {
@@ -73,6 +68,11 @@ export class ItemBase extends Component {
     }
 
     /*  */
+    onRestart(): void {
+        this.isComplete = false;
+    }
+
+    /*  */
     onClick(): void {
         // to 
     }
@@ -85,32 +85,5 @@ export class ItemBase extends Component {
     /*  */
     get size(): Size {
         return this.node.getComponent(UITransform)!.contentSize;
-    }
-
-    async showTalk(): Promise<void> {
-        const config = ZhaoChaMgr.getInstance().curItems.find(item => item.ItemId == this.itemId)!;
-        if (!config) {
-            console.error(`[zc] ClickItem, showTalk, config not found, id:${this.itemId}`);
-            return;
-        }
-
-        if (config.TalkText == "") {
-            console.log(`[zc] ClickItem, showTalk, config.Tip is empty, id:${this.itemId}`);
-            return;
-        }
-
-        const stage = NodeHelper.getComponentInParent(this.node, Stage);
-        if (!stage) {
-            console.error(`[zc] ClickItem, showTalk, stage not found`);
-            return;
-        }
-
-        const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(`Common/Talk`, Prefab);
-        const node = instantiate(prefab);
-        stage.content.addChild(node);
-        node.setWorldPosition(this.node.worldPosition);
-        node.name = `talk_${this.itemId}`;
-        const talk = node.getComponent(Talk)!;
-        talk.setText(config.TalkText, config.TalkTime, config.TalkDirection, this.size);
     }
 }

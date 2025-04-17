@@ -25,8 +25,6 @@ export class Stage extends Component {
     @property(FindList)
     findList: FindList = null!;
 
-    loadedStage: Node = null!;
-
     get config(): TrZhaoChaStage {
         return ZhaoChaMgr.getInstance().curConfig;
     }
@@ -38,33 +36,26 @@ export class Stage extends Component {
         oops.message.on(ZhaoChaEvent.COUNT_DOWN_END, this.onCountDownEnd, this);
         oops.message.on(ZhaoChaEvent.EXIT, this.onExit, this);
         oops.message.on(ZhaoChaEvent.WIN, this.onWin, this);
-        oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
         // title
         this.title.string = `${this.config.Name} ${this.config.Title}`;
         // 
-        await this.load();
-        // load
-        this.loadNode.active = false;
-    }
-
-    /*  */
-    async load(): Promise<void> {
         const prefabUrl = `StagePrefab/${this.config.Prefab}`;
         const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(prefabUrl, Prefab);
-        if (prefab == null) {
+        if (!prefab) {
             console.error(`[zc] Stage, start, prefab not found, prefabUrl:${prefabUrl}`);
             return;
         }
         // 
-        this.loadedStage = instantiate(prefab);
-        this.loadedStage.setParent(this.content);
+        const node = instantiate(prefab);
+        node.setParent(this.content);
+        // load
+        this.loadNode.active = false;
     }
 
     onDestroy(): void {
         oops.message.off(ZhaoChaEvent.COUNT_DOWN_END, this.onCountDownEnd, this);
         oops.message.off(ZhaoChaEvent.EXIT, this.onExit, this);
         oops.message.off(ZhaoChaEvent.WIN, this.onWin, this);
-        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
     }
 
     /*  */
@@ -84,19 +75,8 @@ export class Stage extends Component {
         oops.gui.remove(ZhaoChaUIID.Stage);
     }
 
-    /*  */
     onWin(): void {
         console.log("[zc] UIZhaoCha, Stage onWin");
         oops.gui.open(ZhaoChaUIID.WinWindow);
-    }
-
-    /**  */
-    onRestart(): void {
-        console.log("[zc] UIZhaoCha, Stage onRestart");
-        if (this.loadedStage) {
-            this.loadedStage.destroy();
-            this.loadedStage = null!;
-        }
-        this.load();
     }
 }

@@ -47,8 +47,6 @@ export class Talk extends Component {
     setText(text: string, time: number, dir: TalkDirection, size: Size): void {
         this.dir = dir;
         this.text.node.on(Node.EventType.SIZE_CHANGED, this.onSizeChanged, this);
-        console.log(`[zc] Talk, setText, dir:${dir}, size:${size}`);
-        const offsetWidth = size.width > 150 ? size.width / 2 : size.width;
         // anchor
         const nodeTrs = this.node.getComponent(UITransform)!;
         switch (this.dir) {
@@ -60,7 +58,7 @@ export class Talk extends Component {
                 this.dotTrs.node.setPosition(-5, -5, 0);
                 nodeTrs.anchorX = 0;
                 
-                this.node.setPosition(this.node.position.add(new Vec3(offsetWidth, 0, 0)));
+                this.node.setPosition(this.node.position.add(new Vec3(size.width, 0, 0)));
                 break;
             case TalkDirection.Left:
                 this.bgTrs.anchorX = 1;
@@ -69,7 +67,7 @@ export class Talk extends Component {
                 this.dotTrs.node.scale_x = -1;
                 this.dotTrs.node.setPosition(5, -5, 0);
                 nodeTrs.anchorX = 1;
-                this.node.setPosition(this.node.position.add(new Vec3(-offsetWidth, 0, 0)));
+                this.node.setPosition(this.node.position.add(new Vec3(-size.width, 0, 0)));
                 break;
         }
         // text

@@ -25,17 +25,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 179
-      },
-      {
         "__id__": 181
       },
       {
         "__id__": 183
+      },
+      {
+        "__id__": 185
       }
     ],
     "_prefab": {
-      "__id__": 185
+      "__id__": 187
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -110,10 +110,13 @@
       },
       {
         "__id__": 176
+      },
+      {
+        "__id__": 178
       }
     ],
     "_prefab": {
-      "__id__": 178
+      "__id__": 180
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -2204,7 +2207,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -740,
+      "y": -680,
       "z": 0
     },
     "_lrot": {
@@ -3347,7 +3350,7 @@
     "_left": 0,
     "_right": 0,
     "_top": 0,
-    "_bottom": 100,
+    "_bottom": 160,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -3943,6 +3946,35 @@
     "fileId": "57SOC6lHdJC6eo9uYMa9i4"
   },
   {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": false,
+    "__prefab": {
+      "__id__": 179
+    },
+    "playOnLoad": true,
+    "_clips": [
+      {
+        "__uuid__": "9dc45cca-a024-4afb-b648-ac3bef75dedc",
+        "__expectedType__": "cc.AnimationClip"
+      }
+    ],
+    "_defaultClip": {
+      "__uuid__": "9dc45cca-a024-4afb-b648-ac3bef75dedc",
+      "__expectedType__": "cc.AnimationClip"
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "cbmz4QZj5IFYrX/PzlRiJF"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -3965,7 +3997,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 180
+      "__id__": 182
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -3993,7 +4025,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 182
+      "__id__": 184
     },
     "_alignFlags": 45,
     "_target": null,
@@ -4029,7 +4061,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 184
+      "__id__": 186
     },
     "title": {
       "__id__": 43
