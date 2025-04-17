@@ -8,15 +8,16 @@ import { Contact2DType } from 'cc';
 import { _decorator, Component, Node, Vec3, EventTouch, UITransform, Camera, Canvas, Vec2 } from 'cc';
 import { tween, Tween } from 'cc';
 import { DropZone } from './DropZone';
+import { TrZhaoChaDragItem } from '../../../../../script/game/schema/schema';
 const { ccclass, property } = _decorator;
 
 @ccclass('DragDrop/Item')
-export class DraggableItem extends Component {
+export class DragItem extends Component {
     @property({ type: Number, displayName: 'DragId' })
     dragId: number = 0;
 
-    @property({ type: Number, displayName: 'ZoneId' })
-    bindZoneId: number = 0;
+    @property({ type: [Number], displayName: 'ZoneId' })
+    bindZoneId: number[] = [];
 
     @property(Node)
     private targetNode: Node = null!;
@@ -36,6 +37,12 @@ export class DraggableItem extends Component {
 
     start() {
         this.initDragEvents();
+    }
+
+    init(config: TrZhaoChaDragItem, dragId: number) {
+        this.dragId = dragId;
+        this.bindZoneId = config.ItemId;
+        this.node.name = `DragItem_${this.dragId}`;
     }
 
     onDestroy() {
@@ -126,19 +133,22 @@ export class DraggableItem extends Component {
      * @returns 
      */
     private checkIfInTargetArea(): boolean {
-        if (this.bindZoneId == 0)
+        let filterZone: DropZone[] = [];
+        
+        if (this.bindZoneId.length == 0 || this.bindZoneId.includes(0))
         {
-            this.curZone = this.stayZone[0];
-            return this.stayZone.length > 0;
+            filterZone = this.stayZone.filter(z => !z.isComplete);
         } else {
             for (const zone of this.stayZone) {
-                if (zone.zoneId == this.bindZoneId) {
-                    this.curZone = zone;
-                    return true;
+                if (!zone.isComplete && this.bindZoneId.includes(zone.itemId)) {
+                    filterZone.push(zone);
                 }
             }
-            return false;
         }
+        if (filterZone.length > 0) {
+            this.curZone = filterZone[0];
+        }
+        return filterZone.length > 0;
     }
 
     private returnToStartPosition() {

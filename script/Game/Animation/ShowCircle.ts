@@ -2,20 +2,21 @@ import { _decorator, Component, Node } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
 import { Prefab } from 'cc';
 import { instantiate } from 'cc';
+import { AnimationBase, AnimationType } from './AnimationBase';
 const { ccclass, property } = _decorator;
 
 /*  */
-@ccclass('ZhaoCha/Game/Item/ShowCircle')
-export class ShowCircle extends Component {
+@ccclass('ZhaoCha/Game/Animation/ShowCircle')
+export class ShowCircle extends AnimationBase {
 
-    @property(String)
-    prefabName: string = "circle";
+    prefabName: string = "Circle";
 
     @property(Node)
     circleNode: Node = null!;
 
-    async show(): Promise<void> {
+    async next(): Promise<void> {
         if (this.circleNode) return;
+        this.animationType = AnimationType.ShowCircle;
         // console.log(`[zc] ShowCircle 1, show, name:${this.prefabName}`);
         const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(`Common/${this.prefabName}`, Prefab);
         this.circleNode = instantiate(prefab);
@@ -33,11 +34,16 @@ export class ShowCircle extends Component {
         }
 
         this.circleNode.setPosition(0, 0);
+        this.curIndex++;
     }
 
     remove(): void {
         if (!this.circleNode) return;
         this.circleNode.destroy();
         this.circleNode = null!;
+    }
+
+    isComplete(): boolean {
+        return this.curIndex > 0;
     }
 }

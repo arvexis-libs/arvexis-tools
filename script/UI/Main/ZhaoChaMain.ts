@@ -27,6 +27,7 @@ namespace ZhaoCha {
             console.log("[zc] UIZhaoChaMain onClose");
             oops.gui.remove(ZhaoChaUIID.Main);
             ZhaoChaConfig.getInstance().remove();
+            ZhaoChaMgr.getInstance().onDestroy();
         }
     }
 }

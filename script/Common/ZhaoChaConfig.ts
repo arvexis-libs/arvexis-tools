@@ -59,13 +59,4 @@ export class ZhaoChaConfig {
         this._isInit = false;
         // console.log(`[zc] ZhaoChaConfig remove, id: ${this.id}`);
     }
-
-    /**  */
-    public static resetInstance(): void {
-        if (ZhaoChaConfig._instance) {
-            ZhaoChaConfig._instance.remove();
-            ZhaoChaConfig._instance = null;
-            console.log(`[zc] ZhaoChaConfig instance reset`);
-        }
-    }
 }

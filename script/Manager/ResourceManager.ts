@@ -16,10 +16,16 @@ class AssetCache {
 @ccclass('ZhaoCha/Data/ResourceManager')
 export class ResourceManager
 {
+    @property(Number)
+    private id: number = 0;
     private cacheMap: Map<string, AssetCache> = new Map();
 
     @property(Number)
     private count: number = 0;
+
+    constructor(id: number) {
+        this.id = id;
+    }
     
     /*  */
     // async loadAsync<T extends Asset>(resName: string): Promise<T>;
@@ -27,8 +33,14 @@ export class ResourceManager
         if (bundleName == "") bundleName = ZhaoChaConfig.getInstance().bundleName;
         const key = this.getKey(resName, bundleName);
         if (this.cacheMap.has(key)) {
-            let assetCache = this.cacheMap.get(key);
-            return assetCache?.asset as T;
+            let assetCache = this.cacheMap.get(key)!;
+            if (assetCache && assetCache.asset) {
+                // console.log(`[zc] ResourceManager loadAsync, from cache, id: ${this.id}, resName: ${resName}, bundleName: ${bundleName}`);
+                return assetCache.asset as T;
+            } else {
+                console.error(`[zc] ResourceManager loadAsync, assetCache is null or asset is null, resName: ${resName}, bundleName: ${bundleName}`);
+                return null!;
+            }
         } else {
             let res = await oops.res.loadAsync(bundleName, resName, type);
             this.cacheMap.set(key, {
@@ -37,6 +49,7 @@ export class ResourceManager
                 type: type,
                 asset: res
             });
+            // console.log(`[zc] ResourceManager loadAsync, id: ${this.id}, resName: ${resName}, bundleName: ${bundleName}, count: ${this.count}`);
             this.count++;
             return res as T;
         }
@@ -51,7 +64,7 @@ export class ResourceManager
     clear() {
         this.cacheMap.forEach((assetCache, key) => {
             oops.res.release(assetCache.resName, assetCache.bundleName);
-            assetCache.asset.destroy();
+            // assetCache.asset.destroy();
         });
         this.cacheMap.clear();
         console.log(`[zc] ResourceManager clear, count: ${this.count}`);

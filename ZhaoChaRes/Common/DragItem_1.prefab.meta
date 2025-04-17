@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "e2c75864-bf43-4e5d-a5a3-8dde7f0b02bc",
+  "uuid": "ed5f8b4e-044e-4c04-b1ab-bb7aab546fdb",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "Circle"
+    "syncNodeName": "DragItem_1"
   }
 }
