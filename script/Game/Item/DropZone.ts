@@ -3,15 +3,29 @@
  * @Description: B
  */
 
-import { _decorator, Component, Node, UITransform, Vec3, Sprite, Color } from 'cc';
+import { _decorator, Component, Node, UITransform, Vec3, Sprite, Color, RigidBody2D } from 'cc';
 import { DragItem } from './DragItem';
 import { ItemBase } from './ItemBase';
 import { oops } from 'db://oops-framework/core/Oops';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
+import { RigidBodyGroup } from '../../../../../script/modules/Utils/NodeExtend/RigidBodyGroup';
 const { ccclass, property } = _decorator;
+
 
 @ccclass('DragDrop/Zone')
 export class DropZone extends ItemBase {
+
+
+
+    onStart(): void {
+        super.onStart();
+        // this.colliderGroup
+        const group = (Number)(RigidBodyGroup.DropZone);
+        const preGroup = this.getCollider.group;
+        this.getCollider.group = group;
+        this.getCollider.node.getComponent(RigidBody2D)!.group = group;
+        console.log(`[zc] DropZone, ${this.node.name}, preGroup: ${preGroup} -> group:${this.getCollider.group}`);
+    }
 
     onItemEnter(item: DragItem)
     {

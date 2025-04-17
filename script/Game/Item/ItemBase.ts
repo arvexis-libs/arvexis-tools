@@ -25,7 +25,7 @@ export class ItemBase extends Component {
     itemId: number = 0;
 
     @property(Collider2D)
-    collider: Collider2D = null!;
+    private _collider: Collider2D = null!;
 
     @property(String)
     nodeName: string = "";
@@ -144,5 +144,11 @@ export class ItemBase extends Component {
     get isComplete(): boolean
     {
         return this.getAnimation?.isComplete() ?? false;
+    }
+
+    get getCollider(): Collider2D {
+        if (this._collider) return this._collider;
+        this._collider = this.node.getComponent(Collider2D)!;
+        return this._collider;
     }
 }
