@@ -17,15 +17,16 @@ import { AnimationBase, AnimationType } from '../Animation/AnimationBase';
 import { TrZhaoChaItem } from '../../../../../script/game/schema/schema';
 import { ShowCircle } from '../Animation/ShowCircle';
 import { SwitchNode } from '../Animation/SwitchNode';
+import { SwitchSpine } from '../Animation/SwitchSpine';
+import { PolygonCollider2D } from 'cc';
+import { RigidBodyGroup } from '../../../../../script/modules/Utils/NodeExtend/RigidBodyGroup';
+import { RigidBody2D } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/ItemBase')
 export class ItemBase extends Component {
     @property(Number)
     itemId: number = 0;
-
-    @property(Collider2D)
-    collider: Collider2D = null!;
 
     @property(String)
     nodeName: string = "";
@@ -37,15 +38,9 @@ export class ItemBase extends Component {
         if (this.nodeName == "") {
             this.nodeName = this.node.name;
         }
-        // // collider
-        // if (!this.collider) {
-        //     this.collider = this.node.getComponent(Collider2D)!;
-        // }
-        // if (!this.collider) {
-        //     console.error(`[zc] ItemBase,[${this.node.name}], collider is null`);
-        //     return;
-        // }
-
+        // collider
+        this.initCollider();
+        // event
         this.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(Node.EventType.MOUSE_DOWN, this.onClick, this);
@@ -136,6 +131,9 @@ export class ItemBase extends Component {
                 this.animation = this.node.addComponent(SwitchNode)!;
                 this.animation.animationQueue = NodeHelper.getChildsName(this.node);
                 break;
+            case AnimationType.SwicthSpine:
+                this.animation = this.node.addComponent(SwitchSpine)!;
+                break;
         }
         return this.animation;
     }
@@ -145,4 +143,61 @@ export class ItemBase extends Component {
     {
         return this.getAnimation?.isComplete() ?? false;
     }
+
+    //#region 
+    @property(Collider2D)
+    private _collider: Collider2D = null!;
+
+    private _rigidBody: RigidBody2D = null!;
+
+    getColliderGroup(): number {
+        return (Number)(RigidBodyGroup.Default);
+    }
+
+    get getCollider(): Collider2D {
+        return this._collider;
+    }
+
+    get getRigidBody(): RigidBody2D {
+        return this._rigidBody;
+    }
+
+    initCollider(): void {
+        // collider
+        if (!this._collider) {
+            this._collider = this.node.getComponentInChildren(Collider2D)!;
+        }
+        if (!this._collider) {
+            // todo: 
+            let polygonCollider: PolygonCollider2D = this.node.addComponent(PolygonCollider2D);
+            this._collider = polygonCollider;
+            // polygonCollider
+            const nodeSize = polygonCollider.node.size;
+            const halfWidth = nodeSize.width / 2;
+            const halfHeight = nodeSize.height / 2;
+            // 
+            polygonCollider.points = [
+                new Vec2(-halfWidth, -halfHeight),
+                new Vec2(halfWidth, -halfHeight),
+                new Vec2(halfWidth, halfHeight),
+                new Vec2(-halfWidth, halfHeight)
+            ];
+        }
+        // rigidBody
+        if (!this._rigidBody) {
+            this._rigidBody = this.getCollider.node.getComponent(RigidBody2D)!;
+        }
+        if (!this._rigidBody) {
+            this._rigidBody = this.getCollider.node.addComponent(RigidBody2D);
+        }
+        this.getRigidBody.enabledContactListener = true;
+        // group
+        const group = this.getColliderGroup();
+        this.getCollider.group = group;
+        this.getRigidBody.group = group;
+        // this.getCollider.node.getComponent(RigidBody2D)!.group = group;
+    }
+
+
+    //#endregion
 }

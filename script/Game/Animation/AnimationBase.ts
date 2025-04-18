@@ -4,12 +4,12 @@ const { ccclass, property } = _decorator;
 /**  */
 export enum AnimationType {
     None = 0,
-    /*  */
+    /**  */
     ShowCircle = 1,
-    /*  */
+    /**  */
     SwitchNode = 2,
-    /* spine */
-    SwicthSpineAnimation = 3
+    /** spine */
+    SwicthSpine = 3
 }
 
 @ccclass('ZhaoCha/Game/Animation/AnimationBase')
@@ -18,7 +18,6 @@ export class AnimationBase extends Component {
     @property(String)
     animationQueue: string[] = [];
 
-    @property({type: AnimationType})
     animationType: AnimationType = AnimationType.None;
 
     @property({type: Number})
