@@ -79,6 +79,7 @@ export class ClickEffect extends Component {
 
     onTriggerEvent(node: Node, event: string): void {
         // console.log(`[zc] UIZhaoCha, onTriggerEvent,[${node.name}], [${event}]`);
+        node.active = false;
         this.hideNodes.push(node);
     }
 }
