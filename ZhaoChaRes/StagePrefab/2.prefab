@@ -1120,9 +1120,7 @@
     },
     "anims": [
       "idle",
-      "idle_huanxi_idle",
-      "idle_jingya_idle",
-      "idle_wunai_idle"
+      "idle_huanxi_idle"
     ],
     "skeleton": {
       "__id__": 45
@@ -1130,6 +1128,7 @@
     "index": 0,
     "track": 0,
     "printLog": true,
+    "clickSwitch": false,
     "_id": ""
   },
   {

@@ -21,6 +21,7 @@ import { SwitchSpine } from '../Animation/SwitchSpine';
 import { PolygonCollider2D } from 'cc';
 import { RigidBodyGroup } from '../../../../../script/modules/Utils/NodeExtend/RigidBodyGroup';
 import { RigidBody2D } from 'cc';
+import { SpineAnimUtil } from '../../../../../script/modules/Utils/SpineExtend/SpineAnimUtil';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/ItemBase')
@@ -114,7 +115,7 @@ export class ItemBase extends Component {
 
     //#region 
     @property(AnimationBase)
-    animation: AnimationBase = null!;
+    private animation: AnimationBase = null!;
 
     get getAnimation(): AnimationBase | null {
         if (this.animation) return this.animation;
@@ -133,9 +134,19 @@ export class ItemBase extends Component {
                 break;
             case AnimationType.SwicthSpine:
                 this.animation = this.node.addComponent(SwitchSpine)!;
+                this.animation.animationQueue = this.getSpineAnimUtil?.getAnimNames ?? [];
                 break;
         }
         return this.animation;
+    }
+
+    private spineAnimUtil: SpineAnimUtil = null!;
+
+    get getSpineAnimUtil(): SpineAnimUtil | null {
+        if (this.spineAnimUtil) return this.spineAnimUtil;
+        this.spineAnimUtil = this.node.getComponentInChildren(SpineAnimUtil)!;
+        this.spineAnimUtil.clickSwitch = false;
+        return this.spineAnimUtil;
     }
     //#endregion
 

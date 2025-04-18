@@ -1,6 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { AnimationBase, AnimationType } from './AnimationBase';
 import { NodeHelper } from '../../../../../script/modules/Utils/NodeExtend/NodeHelper';
+import { ItemBase } from '../Item/ItemBase';
 const { ccclass, property } = _decorator;
 
 @ccclass('SwitchSpine')
@@ -10,7 +11,8 @@ export class SwitchSpine extends AnimationBase {
         this.animationType = AnimationType.SwicthSpine;
         this.curIndex++;
         const showName = this.animationQueue[this.curIndex];
-        
+        const item = this.node.getComponent(ItemBase)!;
+        item.getSpineAnimUtil?.setAnimByName(showName);
     }
 
     isComplete(): boolean {

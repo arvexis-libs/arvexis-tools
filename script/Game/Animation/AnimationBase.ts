@@ -3,7 +3,8 @@ const { ccclass, property } = _decorator;
 
 /**  */
 export enum AnimationType {
-    None = 0,
+    /** ,  */
+    Empty = 0,
     /**  */
     ShowCircle = 1,
     /**  */
@@ -18,7 +19,7 @@ export class AnimationBase extends Component {
     @property(String)
     animationQueue: string[] = [];
 
-    animationType: AnimationType = AnimationType.None;
+    animationType: AnimationType = AnimationType.Empty;
 
     @property({type: Number})
     curIndex: number = 0;
