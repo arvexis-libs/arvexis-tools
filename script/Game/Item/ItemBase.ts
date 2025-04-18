@@ -87,28 +87,41 @@ export class ItemBase extends Component {
         return this.node.getComponent(UITransform)!.contentSize;
     }
 
+    /**
+     * 
+     * @description 
+     */
     async showTalk(): Promise<void> {
+        // 
         if (!this.config) {
             console.error(`[zc] ItemBase, showTalk, config is null`);
             return;
         }
 
+        // 
         if (this.config.TalkText == "") {
             console.log(`[zc] ClickItem, showTalk, config.Tip is empty, id:${this.itemId}`);
             return;
         }
 
+        // 
         const stage = NodeHelper.getComponentInParent(this.node, Stage);
         if (!stage) {
             console.error(`[zc] ClickItem, showTalk, stage not found`);
             return;
         }
 
+        // 
         const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(`Common/Talk`, Prefab);
+        // 
         const node = instantiate(prefab);
+        // 
         stage.content.addChild(node);
+        // 
         node.setWorldPosition(this.node.worldPosition);
+        // 
         node.name = `talk_${this.itemId}`;
+        // Talk
         const talk = node.getComponent(Talk)!;
         talk.setText(this.config.TalkText, this.config.TalkTime, this.config.TalkDirection, this.size);
     }
