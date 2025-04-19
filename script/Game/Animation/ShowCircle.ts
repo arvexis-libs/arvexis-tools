@@ -14,9 +14,6 @@ export class ShowCircle extends AnimationBase {
     @property(Node)
     circleNode: Node = null!;
 
-    @property(Number)
-    maxSize: number = 180;
-
     async next(): Promise<void> {
         if (this.circleNode) return;
         this.animationType = AnimationType.ShowCircle;
@@ -30,23 +27,14 @@ export class ShowCircle extends AnimationBase {
         let ratio = 1;
         if (boxSize.width > boxSize.height) {
             ratio = circleSize.width / circleSize.height;
-            const size = this.circleSize(boxSize.width);
-            this.circleNode.uiTransform.setContentSize(size, size * ratio);
+            this.circleNode.uiTransform.setContentSize(boxSize.width, boxSize.width * ratio);
         } else {
             ratio = circleSize.height / circleSize.width;
-            const size = this.circleSize(boxSize.height);
-            this.circleNode.uiTransform.setContentSize(size, size * ratio);
+            this.circleNode.uiTransform.setContentSize(boxSize.height, boxSize.height * ratio);
         }
 
         this.circleNode.setPosition(0, 0);
         this.curIndex++;
-    }
-
-    circleSize(v: number): number {
-        if (v <= this.maxSize) {
-            return v;
-        }
-        return this.maxSize;
     }
 
     remove(): void {
