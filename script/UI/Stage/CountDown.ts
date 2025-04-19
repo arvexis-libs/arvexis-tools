@@ -5,7 +5,6 @@ import { macro } from 'cc';
 import { Label } from 'cc';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
 import { InvalidClick } from './InvalidClick';
-import { InvalidDrag } from './InvalidDrag';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Stage/CountDown')
@@ -27,9 +26,6 @@ export class CountDown extends Component {
 
     @property(InvalidClick)
     invalidClick: InvalidClick = null!;
-
-    @property(InvalidDrag)
-    invalidDrag: InvalidDrag = null!;
 
     start() {
         oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
@@ -56,8 +52,6 @@ export class CountDown extends Component {
         oops.timer.schedule(this.nextFunc, this.interval, macro.REPEAT_FOREVER, 0)!;
         // invalidClick
         this.invalidClick.onTrigger = this.onInvalidClick.bind(this);
-        // invalidDrag
-        this.invalidDrag.onTrigger = this.onInvalidDrag.bind(this);
     }
 
     stop() {
@@ -69,8 +63,6 @@ export class CountDown extends Component {
         oops.timer.unschedule(this.nextFunc);
         // invalidClick
         this.invalidClick.onTrigger = null!;
-        // invalidDrag
-        this.invalidDrag.onTrigger = null!;
         console.log(`[zc] CountDown, stop, LimitTime:${this.limitTime}`);
     }
 
@@ -109,9 +101,5 @@ export class CountDown extends Component {
 
     onInvalidClick(): void {
         this.limitTime -= ZhaoChaMgr.getInstance().curConfig.InvalidClick;
-    }
-
-    onInvalidDrag(): void {
-        this.limitTime -= ZhaoChaMgr.getInstance().curConfig.InvalidDrag;
     }
 }
