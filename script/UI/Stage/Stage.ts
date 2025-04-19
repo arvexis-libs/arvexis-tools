@@ -1,13 +1,13 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, director, Component, Node } from 'cc';
+import { Label, Prefab, instantiate } from 'cc';
 import { TrZhaoChaStage } from '../../../../../script/game/schema/schema';
 import { oops } from "db://oops-framework/core/Oops";
-import { Label } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
 import { ZhaoChaUIID } from '../../Common/ZhaoChaConfig';
 import { FindList } from './FindList';
-import { Prefab } from 'cc';
-import { instantiate } from 'cc';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
+import { EventUtil } from 'db://assets/script/modules/Utils/NodeExtend/EventUtil';
+import { ClickEffect } from './ClickEffect';
 const { ccclass, property } = _decorator;
 
 
@@ -24,6 +24,9 @@ export class Stage extends Component {
 
     @property(FindList)
     findList: FindList = null!;
+
+    @property(ClickEffect)
+    clickEffect: ClickEffect = null!;
 
     loadedStage: Node = null!;
 
@@ -98,5 +101,9 @@ export class Stage extends Component {
             this.loadedStage = null!;
         }
         this.load();
+    }
+
+    onClick(): void {
+        console.log("[zc] UIZhaoCha, Stage onClick");
     }
 }

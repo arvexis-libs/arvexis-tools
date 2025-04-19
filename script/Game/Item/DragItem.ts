@@ -8,8 +8,8 @@ import { Contact2DType } from 'cc';
 import { _decorator, Component, Node, Vec3, EventTouch, UITransform, Camera, Canvas, Vec2 } from 'cc';
 import { tween, Tween } from 'cc';
 import { DropZone } from './DropZone';
-import { TrZhaoChaDragItem } from '../../../../../script/game/schema/schema';
-import { NodeHelper } from '../../../../../script/modules/Utils/NodeExtend/NodeHelper';
+import { TrZhaoChaDragItem } from 'db://assets/script/game/schema/schema';
+import { NodeHelper } from 'db://assets/script/modules/Utils/NodeExtend/NodeHelper';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/DragItem')

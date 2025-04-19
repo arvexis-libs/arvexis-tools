@@ -1,23 +1,28 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator } from 'cc';
 import { ItemBase } from './ItemBase';
-import { ShowCircle } from '../Animation/ShowCircle';
 import { oops } from 'db://oops-framework/core/Oops';
 import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
-import { Talk } from '../Talk/Talk';
-import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
-import { Prefab } from 'cc';
-import { instantiate } from 'cc';
-import { Stage } from '../../UI/Stage/Stage';
+import { EventMouse } from 'cc';
+import { InvalidClick } from '../../UI/Stage/InvalidClick';
 import { NodeHelper } from '../../../../../script/modules/Utils/NodeExtend/NodeHelper';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/ClickItem')
 export class ClickItem extends ItemBase {
+    private _invalidClick: InvalidClick = null!;
+    get invalidClick(): InvalidClick {
+        if (!this._invalidClick) this._invalidClick = NodeHelper.getComponentInParent(this.node, InvalidClick)!;
+        return this._invalidClick;
+    }
 
-    onClick(): void {
-        if (this.isComplete) return;
-        super.onClick();
-        // console.log(`[zc] ClickItem, onClick, name:${this.nodeName}, id:${this.itemId}`);
+    onClick(event: EventMouse): void {
+        this.invalidClick.remove(event.getUILocation()); // 
+        // console.log(`[zc] click, ClickItem, ${event.getUILocation().x}, ${event.getUILocation().y}`);
+        if (this.isComplete) {
+            console.log(`[zc] ClickItem, onClick, name:${this.nodeName}, id:${this.itemId}, isComplete`);
+            return;
+        }
+        super.onClick(event);
         oops.message.dispatchEvent(ZhaoChaEvent.ITEM_CLICK, this.itemId);
         this.getAnimation?.next();
         super.showTalk();

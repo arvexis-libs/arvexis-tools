@@ -44,13 +44,23 @@ export class Talk extends Component {
         this.text?.node?.off(Node.EventType.SIZE_CHANGED, this.onSizeChanged, this);
     }
 
+    /**
+     * 
+     * @param text 
+     * @param time 3
+     * @param dir /
+     * @param size 
+     */
     setText(text: string, time: number, dir: TalkDirection, size: Size): void {
         this.dir = dir;
+        // 
         this.text.node.on(Node.EventType.SIZE_CHANGED, this.onSizeChanged, this);
         console.log(`[zc] Talk, setText, dir:${dir}, size:${size}`);
+        // 150
         const offsetWidth = size.width > 150 ? size.width / 2 : size.width;
-        // anchor
+        // UITransform
         const nodeTrs = this.node.getComponent(UITransform)!;
+        // 
         switch (this.dir) {
             case TalkDirection.Right:
                 this.bgTrs.anchorX = 0;
@@ -59,7 +69,7 @@ export class Talk extends Component {
                 this.dotTrs.node.scale_x = 1;
                 this.dotTrs.node.setPosition(-5, -5, 0);
                 nodeTrs.anchorX = 0;
-                
+                // 
                 this.node.setPosition(this.node.position.add(new Vec3(offsetWidth, 0, 0)));
                 break;
             case TalkDirection.Left:
@@ -69,18 +79,19 @@ export class Talk extends Component {
                 this.dotTrs.node.scale_x = -1;
                 this.dotTrs.node.setPosition(5, -5, 0);
                 nodeTrs.anchorX = 1;
+                // 
                 this.node.setPosition(this.node.position.add(new Vec3(-offsetWidth, 0, 0)));
                 break;
         }
-        // text
+        // 
         this.text.string = text;
-        // this.node.getComponent(UITransform)!.height = this.calHeight;
-        // timer
+        // 
         this.destroyNodeFunction = this.destroyNode.bind(this);
-        // time 3
+        // 3
         if (time < 3) {
             time = 3;
         }
+        // 
         oops.timer.scheduleOnce(this.destroyNodeFunction, time);
     }
 
