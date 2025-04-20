@@ -23,6 +23,7 @@ import { RigidBodyGroup } from '../../../../../script/modules/Utils/NodeExtend/R
 import { RigidBody2D } from 'cc';
 import { SpineAnimUtil } from '../../../../../script/modules/Utils/SpineExtend/SpineAnimUtil';
 import { EventMouse } from 'cc';
+import { EmptyAnimation } from '../Animation/EmptyAnimation';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/ItemBase')
@@ -139,6 +140,9 @@ export class ItemBase extends Component {
         }
         switch (this.config.AnimationType) 
         {
+            case AnimationType.Empty:
+                this.animation = this.node.addComponent(EmptyAnimation)!;
+                break;
             case AnimationType.ShowCircle:
                 this.animation = this.node.addComponent(ShowCircle)!;
                 break;
@@ -166,7 +170,7 @@ export class ItemBase extends Component {
 
     get isComplete(): boolean
     {
-        return this.getAnimation?.isComplete() ?? false;
+        return this.getAnimation?.isComplete() ?? true;
     }
 
     //#region 
