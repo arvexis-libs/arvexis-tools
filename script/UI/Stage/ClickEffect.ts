@@ -40,12 +40,10 @@ export class ClickEffect extends Component {
         // config
         if (this.effectName == "") {
             console.log(`[zc] UIZhaoCha, effectName is empty`);
-            this.node.active = false;
             return;
         }
         // eventUtil
         this.eventUtil.onClick = this.onClick.bind(this);
-        this.node.active = true;
     }
 
     protected onDestroy(): void {

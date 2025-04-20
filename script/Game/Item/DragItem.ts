@@ -10,8 +10,6 @@ import { tween, Tween } from 'cc';
 import { DropZone } from './DropZone';
 import { TrZhaoChaDragItem } from 'db://assets/script/game/schema/schema';
 import { NodeHelper } from 'db://assets/script/modules/Utils/NodeExtend/NodeHelper';
-import { InvalidClick } from '../../UI/Stage/InvalidClick';
-import { InvalidDrag } from '../../UI/Stage/InvalidDrag';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/DragItem')
@@ -37,19 +35,6 @@ export class DragItem extends Component {
 
     @property(DropZone)
     curZone: DropZone = null!;
-
-
-    private _invalidClick: InvalidClick = null!;
-    get invalidClick(): InvalidClick {
-        if (!this._invalidClick) this._invalidClick = NodeHelper.getComponentInParent(this.node, InvalidClick)!;
-        return this._invalidClick;
-    }
-
-    private _invalidDrag: InvalidDrag = null!;
-    get invalidDrag(): InvalidDrag {
-        if (!this._invalidDrag) this._invalidDrag = NodeHelper.getComponentInParent(this.node, InvalidDrag)!;
-        return this._invalidDrag;
-    }
 
     start() {
         this.initDragEvents();
@@ -110,7 +95,7 @@ export class DragItem extends Component {
 
     private onTouchStart(event: EventTouch) {
         this.isDragging = true;
-        this.invalidClick.remove(event.getUILocation());
+        
         // 
         const node = this.targetNode || this.node;
         this.startPosition.set(node.position);
@@ -144,7 +129,6 @@ export class DragItem extends Component {
         if (!isInTargetArea) {
             // 
             this.returnToStartPosition();
-            this.invalidDrag.onTrigger?.();
         } else {
             this.curZone.onItemEnter(this);
         }
