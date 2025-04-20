@@ -21,7 +21,7 @@ export class InvalidClick extends Component {
     
     /**  */
     @property(Number)
-    timeout: number = 100;
+    timeout: number = 20;
     /**  */
     public onTrigger: Function = null!;
 

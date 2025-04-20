@@ -40,10 +40,12 @@ export class ClickEffect extends Component {
         // config
         if (this.effectName == "") {
             console.log(`[zc] UIZhaoCha, effectName is empty`);
+            this.node.active = false;
             return;
         }
         // eventUtil
         this.eventUtil.onClick = this.onClick.bind(this);
+        this.node.active = true;
     }
 
     protected onDestroy(): void {
@@ -56,7 +58,7 @@ export class ClickEffect extends Component {
 
     async onClick(event: EventMouse): Promise<void> {
         event.preventSwallow = true; // 
-        console.log(`[zc] click, ClickEffect, ${event.getUILocation().x}, ${event.getUILocation().y}`);
+        // console.log(`[zc] click, ClickEffect, ${event.getUILocation().x}, ${event.getUILocation().y}`);
         if (this.showNodesNum >= this.maxShowNum) return;
         let node: Node = null!;
         if (this.hideNodes.length > 0) {
