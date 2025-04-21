@@ -14,6 +14,10 @@ enum TalkDirection {
     Left = 1,
     Top = 2,
     Bottom = 3,
+    TopLeft = 4,
+    TopRight = 5,
+    BottomLeft = 6,
+    BottomRight = 7,
 }
 
 @ccclass('ZhaoCha/Stage/Talk')
@@ -122,15 +126,37 @@ export class Talk extends Component {
             case TalkDirection.Top:
                 this.node.setWorldPosition(this.node.worldPosition.add(new Vec3(-trs.width / 2, trs.height + this.itemSize.height / 2 + 20, 0)));
                 this.dotTrs.anchorX = 1;
-                this.dotTrs.node.scale_x = 1;
                 this.dotTrs.node.setPosition(trs.width / 2, -trs.height - 5, 0);
+                this.dotTrs.node.angle_z = 90;
+                break;
+            case TalkDirection.TopLeft:
+                this.node.setWorldPosition(this.node.worldPosition.add(new Vec3(-trs.width, trs.height + this.itemSize.height / 2 + 20, 0)));
+                this.dotTrs.anchorX = 1;
+                this.dotTrs.node.setPosition(trs.width - 35, -trs.height - 5, 0);
+                this.dotTrs.node.angle_z = 90;
+                break;
+            case TalkDirection.TopRight:
+                this.node.setWorldPosition(this.node.worldPosition.add(new Vec3(trs.width, trs.height + this.itemSize.height / 2 + 20, 0)));
+                this.dotTrs.anchorX = 1;
+                this.dotTrs.node.setPosition(35, -trs.height - 5, 0);
                 this.dotTrs.node.angle_z = 90;
                 break;
             case TalkDirection.Bottom:
                 this.node.setWorldPosition(this.node.worldPosition.add(new Vec3(-trs.width / 2, -this.itemSize.height - 20, 0)));
                 this.dotTrs.anchorX = 1;
-                this.dotTrs.node.scale_x = 1;
                 this.dotTrs.node.setPosition(trs.width / 2, 5, 0);
+                this.dotTrs.node.angle_z = 270;
+                break;
+            case TalkDirection.BottomLeft:
+                this.node.setWorldPosition(this.node.worldPosition.add(new Vec3(-trs.width, trs.height + this.itemSize.height / 2 + 20, 0)));
+                this.dotTrs.anchorX = 1;
+                this.dotTrs.node.setPosition(trs.width - 35, -trs.height - 5, 0);
+                this.dotTrs.node.angle_z = 270;
+                break;
+            case TalkDirection.BottomRight:
+                this.node.setWorldPosition(this.node.worldPosition.add(new Vec3(trs.width, trs.height + this.itemSize.height / 2 + 20, 0)));
+                this.dotTrs.anchorX = 1;
+                this.dotTrs.node.setPosition(35, -trs.height - 5, 0);
                 this.dotTrs.node.angle_z = 270;
                 break;
         }
