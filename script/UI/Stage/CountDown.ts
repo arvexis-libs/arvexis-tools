@@ -31,6 +31,9 @@ export class CountDown extends Component {
     @property(InvalidDrag)
     invalidDrag: InvalidDrag = null!;
 
+    @property(Boolean)
+    isReged: boolean = false;
+
     start() {
         oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
         oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
@@ -54,6 +57,8 @@ export class CountDown extends Component {
     }
 
     reg() {
+        if (this.isReged) return;
+        this.isReged = true;
         this.nextFunc = this.next.bind(this);
         // event
         oops.message.on(ZhaoChaEvent.RESUME, this.onResume, this);
@@ -77,6 +82,7 @@ export class CountDown extends Component {
         this.invalidClick.onTrigger = null!;
         // invalidDrag
         this.invalidDrag.onTrigger = null!;
+        this.isReged = false;
         console.log(`[zc] CountDown, stop, LimitTime:${this.limitTime}`);
     }
 

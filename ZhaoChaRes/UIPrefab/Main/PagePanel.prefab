@@ -1372,7 +1372,7 @@
     "fileId": "74uNDFB0tOc6EdKDglzFvt"
   },
   {
-    "__type__": "54278FJmbFODLB6jND9r5Mr",
+    "__type__": "a1cfcgWvVRG4qJ9DVRSPJZu",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -1385,7 +1385,9 @@
     },
     "index": 0,
     "page": 0,
-    "pageBoxNode": null,
+    "pageBoxNode": {
+      "__id__": 10
+    },
     "viewConfig": {
       "__id__": 80
     },
@@ -1393,7 +1395,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "9eiLdmi7VEb79kom+9GmYp"
+    "fileId": "18a73avZtO3K0To3gIm8w7"
   },
   {
     "__type__": "ZhaoCha/PagePanel/ViewConfig",

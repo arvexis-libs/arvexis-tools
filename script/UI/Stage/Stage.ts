@@ -49,8 +49,7 @@ export class Stage extends Component {
         oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
         oops.message.on(ZhaoChaEvent.SECTION_START, this.onSectionStart, this);
         // 
-        ZhaoChaMgr.getInstance().setStageDefaultSection();
-        oops.message.dispatchEvent(ZhaoChaEvent.SECTION_START, {});
+        this.startFirstSection();
     }
 
     onDestroy(): void {
@@ -59,6 +58,11 @@ export class Stage extends Component {
         oops.message.off(ZhaoChaEvent.WIN, this.onWin, this);
         oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
         oops.message.off(ZhaoChaEvent.SECTION_START, this.onSectionStart, this);
+    }
+
+    startFirstSection(): void {
+        ZhaoChaMgr.getInstance().setStageDefaultSection();
+        oops.message.dispatchEvent(ZhaoChaEvent.SECTION_START, {});
     }
 
     async onSectionStart(): Promise<void> {
@@ -116,7 +120,7 @@ export class Stage extends Component {
             this.loadedStage.destroy();
             this.loadedStage = null!;
         }
-        this.load();
+        this.startFirstSection();
     }
 
     onClick(): void {
