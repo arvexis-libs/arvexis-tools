@@ -9,6 +9,7 @@ import { Initialize } from 'db://assets/script/game/initialize/Initialize';
 import { UIConfigData } from 'db://assets/script/game/common/config/GameUIConfig';
 import { Entry } from '../script/UI/Entry/Entry';
 import { ZhaoChaConfig, ZhaoChaUIID } from '../script/Common/ZhaoChaConfig';
+import { ZhaoChaEvent } from '../Script/Common/ZhaoChaEvent';
 
 
 const { ccclass, property } = _decorator;
@@ -40,6 +41,11 @@ export class ZhaoChaMain extends Root {
 
     private onInitResComplete(event: string, ...args: any) {
         ZhaoChaConfig.getInstance().init();
+        oops.message.on(ZhaoChaEvent.ManagerInit, this.onManagerInit, this);
+        oops.gui.open(ZhaoChaUIID.Manager);
+    }
+
+    onManagerInit() {
         oops.gui.open(ZhaoChaUIID.EntryPanel);
     }
 }

@@ -1,8 +1,11 @@
 import { CCComp } from "db://oops-framework/module/common/CCComp";
 import ConfigManager from "../../../../script/game/manager/Config/ConfigManager";
-import { TrZhaoChaDragItem, TrZhaoChaItem, TrZhaoChaSection, TrZhaoChaStage, ZhaoCha } from "../../../../script/game/schema/schema";
+import { TrZhaoChaDragItem, TrZhaoChaItem, TrZhaoChaSection, TrZhaoChaStage, ZhaoCha }
+ from "../../../../script/game/schema/schema";
 import { _decorator } from "cc";
 import { ResourceManager } from "./ResourceManager";
+import { oops } from "db://oops-framework/core/Oops";
+import { ZhaoChaEvent } from "../Common/ZhaoChaEvent";
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Mgr')
@@ -30,6 +33,7 @@ export class ZhaoChaMgr extends CCComp {
         this.id = Math.floor(Math.random() * 9000) + 1000;
         this.resourceManager = new ResourceManager(this.id);
         ZhaoChaMgr._instance = this.node.getComponent(ZhaoChaMgr)!;
+        oops.message.dispatchEvent(ZhaoChaEvent.ManagerInit, {});
     }
 
     onDestroy(): void {
@@ -45,9 +49,9 @@ export class ZhaoChaMgr extends CCComp {
 
     //#region 
     private _stageList: TrZhaoChaStage[] = [];
+    /**  */
+    private _curStage: TrZhaoChaStage = null!;
 
-    /** ID */
-    public curStageId: number = 0;
     /**  */
     public get stageList(): TrZhaoChaStage[] {
         if (this._stageList.length == 0) {
@@ -57,20 +61,32 @@ export class ZhaoChaMgr extends CCComp {
     }
 
     /**  */
-    public get curConfig(): TrZhaoChaStage {
-        for (let i = 0; i < this._stageList.length; i++) {
-            if (this._stageList[i].Id == this.curStageId) {
-                return this._stageList[i];
+    public get curStage(): TrZhaoChaStage {
+        // console.log(`[zc] ZhaoChaMgr[${this.id}] get curStage, curStage: ${this._curStage?.Name}`);
+        return this._curStage;
+    }
+
+    /**  */
+    public setCurStage(stageId: number): void {
+        let findStage = null;
+        for (let i = 0; i < this.stageList.length; i++) {
+            const stage = this.stageList[i];
+            if (stage.Id == stageId) {
+                console.log(`[zc] ZhaoChaMgr[${this.id}] setCurStage, stageId: ${stageId}, stage: ${stage.Name}`);
+                findStage = stage;
+                break;
             }
         }
-        return null!;
+        this._curStage = findStage!
     }
+
+
     /**
      * 
      */
     public get curItems(): TrZhaoChaItem[] {
         const items = ConfigManager.tables.TbZhaoChaItem.getDataList();
-        return items.filter(item => item.Stage == this.curStageId);
+        return items.filter(item => item.Stage == this.curStage.Id);
     }
     //#endregion
 
@@ -82,22 +98,28 @@ export class ZhaoChaMgr extends CCComp {
         return this._curSection;
     }
 
+    private setSection(section: TrZhaoChaSection): void {
+        this._curSection = section;
+        console.log(`[zc] ZhaoChaMgr setSection, section: ${section.SectionId}, sectionPrefab: ${section.SectionPrefab}`);
+    }
+
     /**  */
     public setStageDefaultSection(): void {
-        if (this.sectionList.length == 0) {
+        if (this.sectionList.length == 0) { 
             this.sectionList = ConfigManager.tables.TbZhaoChaSection.getDataList();
         }
-        let item = this.sectionList.find(item => item.Stage == this.curStageId);
+        let item = this.sectionList.find(item => item.Stage == this.curStage.Id);
         if (item) {
-            this._curSection = item;
+            this.setSection(item);
         } else {
             const instance = Object.create(TrZhaoChaSection.prototype);
             instance.SectionId = 1;
-            instance.Stage = this.curStageId;
+            instance.Stage = this.curStage.Id;
             instance.LimitTime = 0;
+            instance.SectionPrefab = `Section_${this.curStage.Id}`;
             // 
             instance.Animation = this.defaultSectionAnimation;
-            this._curSection = instance;
+            this.setSection(instance);
         }
     }
 
@@ -116,8 +138,9 @@ export class ZhaoChaMgr extends CCComp {
         if (this.sectionList.length == 0) {
             this.sectionList = ConfigManager.tables.TbZhaoChaSection.getDataList();
         }
-        this._curSection = this.sectionList.find(item => 
-            item.Stage == this.curStageId && item.SectionId > this._curSection.SectionId)!;
+        const nextSection = this.sectionList.find(item => 
+            item.Stage == this.curStage.Id && item.SectionId > this._curSection.SectionId)!;
+        this.setSection(nextSection);
     }
     //#endregion
 
@@ -125,7 +148,7 @@ export class ZhaoChaMgr extends CCComp {
     /**  */
     private get dragInstanceList(): TrZhaoChaDragItem[] {
         let list = ConfigManager.tables.TbZhaoChaDragItem.getDataList();
-        list = list.filter(item => item.Stage == this.curStageId);
+        list = list.filter(item => item.Stage == this.curStage.Id);
         return list;
     }
     /** ID */
