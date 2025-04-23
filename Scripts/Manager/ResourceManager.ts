@@ -18,9 +18,9 @@ export class ResourceManager
 {
     @property(Number)
     private id: number = 0;
+
     private cacheMap: Map<string, AssetCache> = new Map();
 
-    @property(Number)
     private count: number = 0;
 
     constructor(id: number) {

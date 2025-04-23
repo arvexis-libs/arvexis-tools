@@ -18,17 +18,17 @@ export class DropZone extends ItemBase {
         return (Number)(RigidBodyGroup.DropZone);
     }
 
-    onItemEnter(item: DragItem)
+    async onItemEnter(item: DragItem)
     {
         console.log(`DropZone, onItemEnter, item: ${item.toString()}`);
         if (this.isComplete) return;
         // animation
-        this.getAnimation?.next();
+        await this.getAnimation?.next();
+        // show talk
+        await super.showTalk();
         // event
-        oops.message.dispatchEvent(ZhaoChaEvent.ITEM_CLICK, this.itemId);
-        // talk
-        super.showTalk();
-        // drag destroy
+        oops.message.dispatchEvent(ZhaoChaEvent.ITEM_FINISH, this.itemId);
+        // node destroy
         item.node.destroy();
     }
 } 

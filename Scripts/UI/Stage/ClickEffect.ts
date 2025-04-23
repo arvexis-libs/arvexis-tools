@@ -37,11 +37,11 @@ export class ClickEffect extends Component {
     }
 
     onLoad() {
-        oops.message.on(ZhaoChaEvent.SECTION_START, this.onSectionStart, this);
+        oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
     }
 
     protected onDestroy(): void {
-        oops.message.off(ZhaoChaEvent.SECTION_START, this.onSectionStart, this);
+        oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
         this.eventUtil.onClick = null!;
     }
 
@@ -49,7 +49,7 @@ export class ClickEffect extends Component {
         return this.instanceNodes.length - this.hideNodes.length;
     }
 
-    onSectionStart(): void {
+    onSectionLoaded(): void {
         const stage = NodeHelper.getComponentInParent(this.node, Stage)!;
         this.effectName = stage.stageConfig.ClickEffect || "";
         // config

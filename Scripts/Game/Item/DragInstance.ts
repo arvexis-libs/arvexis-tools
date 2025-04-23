@@ -5,6 +5,8 @@
 import { _decorator, Component, Node, UITransform, Prefab, instantiate, Collider2D, BoxCollider2D } from 'cc';
 import { ZhaoChaMgr } from '../../Manager/ZhaoChaMgr';
 import { DragItem } from './DragItem';
+import { oops } from 'db://oops-framework/core/Oops';
+import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
 const { ccclass, property } = _decorator;
 
 @ccclass('DragDrop/Instance')
@@ -14,7 +16,21 @@ export class DragInstance extends Component {
 
     collider: Collider2D = null!;
 
-    async start() {
+    protected onLoad(): void {
+        oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
+        oops.message.on(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
+    }
+
+    protected onSectionCleanStart(): void {
+        oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
+    }
+
+    protected onDestroy(): void {
+        oops.message.off(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
+        oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
+    }
+
+    async onSectionLoaded() {
         let config = ZhaoChaMgr.getInstance().getDragInstanceList(this.instanceId);
         if (!config) {
             console.error(`[zc]DragInstance: ID ${this.instanceId} `);

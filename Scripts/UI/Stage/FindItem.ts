@@ -25,12 +25,8 @@ export class FindItem extends Component {
     start() {
         this.label.node.active = false;
         this.sprite.node.active = false;
-        oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
     }
 
-    protected onDestroy(): void {
-        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
-    }
 
     async refresh(id: number) {
         this.id = id;
@@ -49,11 +45,5 @@ export class FindItem extends Component {
         // active
         this.label.node.active = true;
         this.sprite.node.active = true;
-    }
-
-    onRestart(): void {
-        this.id = 0;
-        this.label.node.active = false;
-        this.sprite.node.active = false;
     }
 }

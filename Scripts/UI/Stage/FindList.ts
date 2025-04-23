@@ -10,13 +10,14 @@ import { instantiate } from 'cc';
 import { FindItem } from './FindItem';
 import { ScrollView } from 'cc';
 import { Vec2 } from 'cc';
+import { NodeHelper } from '../../../../../script/modules/Utils/NodeExtend/NodeHelper';
+import { Stage } from './Stage';
 const { ccclass, property } = _decorator;
 
 
 @ccclass('ZhaoCha/Stage/FindList')
 export class FindList extends Component {
 
-    @property([FindItem])
     items: FindItem[] = [];
 
     configs: TrZhaoChaItem[] = [];
@@ -30,16 +31,31 @@ export class FindList extends Component {
     @property(Label)
     progress: Label = null!;
 
-    start() {
-        oops.message.on(ZhaoChaEvent.ITEM_CLICK, this.onItemClick, this);
-        oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
-        this.loadItems();
+    onLoad() {
+        console.log("[zc] FindList, onLoad");
+        const stage = NodeHelper.getComponentInParent(this.node, Stage)!;
+        this.progress = stage.progress;
+        oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
     }
 
     onDestroy(): void {
-        oops.message.off(ZhaoChaEvent.ITEM_CLICK, this.onItemClick, this);
-        oops.message.off(ZhaoChaEvent.RESTART, this.onRestart, this);
+        oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
         console.log("[zc] FindList, onDestroy");
+    }
+
+    onSectionLoaded(): void {
+        console.log("[zc] FindList, onSectionLoaded");
+        oops.message.on(ZhaoChaEvent.ITEM_FINISH, this.onItemFinish, this);
+        oops.message.on(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
+        this.loadItems();
+    }
+
+    onSectionCleanStart(): void {
+        // 
+        NodeHelper.destroyAllChild(this.contentNode);
+        this.items = [];
+        oops.message.off(ZhaoChaEvent.ITEM_FINISH, this.onItemFinish, this);
+        oops.message.off(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
     }
 
     async loadItems() {
@@ -47,7 +63,6 @@ export class FindList extends Component {
         const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(`UIPrefab/Stage/FindItem`, Prefab);
         // item
         this.configs = ZhaoChaMgr.getInstance().curItems;
-        this.items = [];
         for (let i = 0; i < this.configs.length; i++) {
             const node = instantiate(prefab);
             node.setParent(this.contentNode);
@@ -60,27 +75,31 @@ export class FindList extends Component {
         this.refreshProgress(0);
     }
 
-    async onItemClick(event: string, ...args: any) {
+    async onItemFinish(event: string, ...args: any) {
         const id = parseInt(args);
         const item = this.freeItem;
         if (!item) {
             console.log("[zc] FindList, onItemClick, item");
             return;
         }
-        // console.log(`[zc] FindList, onItemClick, id:${id}`);
+        console.log(`[zc] FindList, onItemFinish, id:${id}`);
         await item.refresh(id);
-        // 
-        const findNum = this.findItems.length;
-        const scrollStep = 5;
-        if (findNum < scrollStep) {
-            this.scrollView.scrollToTopLeft();
-        } else {
-            // scrollStep  100
-            const scrollX = findNum / scrollStep * 100;
-            this.scrollView.scrollTo(new Vec2(scrollX, 0), 0);
+        try {
+            // 
+            const findNum = this.findItems.length;
+            const scrollStep = 5;
+            if (findNum < scrollStep) {
+                this.scrollView.scrollToTopLeft();
+            } else {
+                // scrollStep  100
+                const scrollX = findNum / scrollStep * 100;
+                this.scrollView.scrollTo(new Vec2(scrollX, 0), 0);
+            }
+            // 
+            this.refreshProgress(findNum);
+        } catch (e) {
+            console.error("[zc] FindList, onItemFinish, error", e);
         }
-        // 
-        this.refreshProgress(findNum);
     }
     /**
      * item
@@ -99,6 +118,7 @@ export class FindList extends Component {
      * item
      */
     get freeItem(): FindItem {
+        if (!this.items) return null!;
         for (let i = 0; i < this.items.length; i++) {
             if (this.items[i].id == 0) {
                 return this.items[i];
@@ -117,9 +137,14 @@ export class FindList extends Component {
     }
 
     refreshProgress(findNum: number): void {
-        this.progress.string = `${findNum}/${this.count}`;
-        if (findNum >= this.count) {
-            oops.message.dispatchEvent(ZhaoChaEvent.WIN, {});
+        try {
+            this.progress.string = `${findNum}/${this.count}`;
+            if (findNum >= this.count) {
+                console.log("[zc] FindList, refreshProgress, dispatchEvent SECTION_FINISH");
+                oops.message.dispatchEvent(ZhaoChaEvent.SECTION_FINISH, {});
+            }
+        } catch (e) {
+            console.error("[zc] FindList, refreshProgress, error", e);
         }
     }
 }

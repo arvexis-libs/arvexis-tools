@@ -20,5 +20,11 @@ export class ZhaoChaEvent {
     /**  */
     static readonly SECTION_LOADED = "section_loaded";
     /**  */
-    static readonly SECTION_END = "section_end";
+    static readonly SECTION_FINISH = "section_finish";
+    /**  */
+    static readonly SECTION_CLEAN_START = "section_clean_start";
+    /**  */
+    static readonly SECTION_CLEAN_END = "section_clean_end";
+    /**  */   
+    static readonly ITEM_FINISH = "item_finish";
 }

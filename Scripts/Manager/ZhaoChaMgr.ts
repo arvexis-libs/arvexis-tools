@@ -86,7 +86,7 @@ export class ZhaoChaMgr extends CCComp {
      */
     public get curItems(): TrZhaoChaItem[] {
         const items = ConfigManager.tables.TbZhaoChaItem.getDataList();
-        return items.filter(item => item.Stage == this.curStage.Id);
+        return items.filter(item => item.Stage == this.curStage.Id && item.Section == this.curSection.SectionId);
     }
     //#endregion
 
@@ -100,7 +100,7 @@ export class ZhaoChaMgr extends CCComp {
 
     private setSection(section: TrZhaoChaSection): void {
         this._curSection = section;
-        console.log(`[zc] ZhaoChaMgr setSection, section: ${section.SectionId}, sectionPrefab: ${section.SectionPrefab}`);
+        console.log(`[zc] ZhaoChaMgr setSection, section: ${section?.SectionId}, sectionPrefab: ${section?.SectionPrefab}`);
     }
 
     /**  */
@@ -113,7 +113,7 @@ export class ZhaoChaMgr extends CCComp {
             this.setSection(item);
         } else {
             const instance = Object.create(TrZhaoChaSection.prototype);
-            instance.SectionId = 1;
+            instance.SectionId = 0; // 0
             instance.Stage = this.curStage.Id;
             instance.LimitTime = 0;
             instance.SectionPrefab = `Section_${this.curStage.Id}`;
@@ -148,7 +148,8 @@ export class ZhaoChaMgr extends CCComp {
     /**  */
     private get dragInstanceList(): TrZhaoChaDragItem[] {
         let list = ConfigManager.tables.TbZhaoChaDragItem.getDataList();
-        list = list.filter(item => item.Stage == this.curStage.Id);
+        list = list.filter(item => item.Stage == this.curStage.Id 
+            && (item.Section == this.curSection.SectionId || item.Section == 0));
         return list;
     }
     /** ID */

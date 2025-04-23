@@ -38,34 +38,51 @@ export class ItemBase extends Component {
 
     onLoad(): void {
         oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
-        console.log(`[zc] SectionLoaded, ItemBase onLoad`);
+        oops.message.on(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
+        // console.log(`[zc] ItemBase onLoad, ${this.itemId}`);
     }
 
-    onDestroy(): void {
+    onSectionCleanStart(): void {
         this.node.off(Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.off(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.off(Node.EventType.MOUSE_DOWN, this.onClick, this);
         oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
+        // console.log(`[zc] ItemBase onSectionCleanStart, ${this.itemId}`);
+    }
+
+    protected onDestroy(): void {
+        this.node.off(Node.EventType.TOUCH_START, this.onTouchStart, this);
+        this.node.off(Node.EventType.TOUCH_END, this.onTouchEnd, this);
+        this.node.off(Node.EventType.MOUSE_DOWN, this.onClick, this);
+        oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
+        oops.message.off(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
+        // console.log(`[zc] ItemBase onDestroy, ${this.itemId}`);
     }
 
     onSectionLoaded(): void {
+        if (!this.node) {
+            console.info(`[zc] ItemBase onSectionLoaded, node is null`);
+            return;
+        }
         // nodeName
         if (this.nodeName == "") {
             this.nodeName = this.node.name;
         }
-        console.log(`[zc] SectionLoaded, ItemBase onSectionLoaded`);
+        // config
+        this.config = ZhaoChaMgr.getInstance().curItems.find(item => item.ItemId == this.itemId)!;
+        if (!this.config) {
+            console.error(`[zc], config not found, id:${this.itemId}`);
+            this.node.active = false;
+            return;
+        }
+        // console.log(`[zc] SectionLoaded, ItemBase onSectionLoaded`);
         // collider
         this.initCollider();
         // event
         this.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(Node.EventType.MOUSE_DOWN, this.onClick, this);
-        // config
-        this.config = ZhaoChaMgr.getInstance().curItems.find(item => item.ItemId == this.itemId)!;
-        if (!this.config) {
-            console.error(`[zc], config not found, id:${this.itemId}`);
-            return;
-        }
+        this.node.active = true;
         this.onLoaded();
     }
 
@@ -82,7 +99,7 @@ export class ItemBase extends Component {
     }
 
     /*  */
-    onClick(event: EventMouse): void {
+    async onClick(event: EventMouse): Promise<void> {
         // to 
     }
 

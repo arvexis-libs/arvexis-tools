@@ -15,16 +15,18 @@ export class ClickItem extends ItemBase {
         return this._invalidClick;
     }
 
-    onClick(event: EventMouse): void {
+    async onClick(event: EventMouse): Promise<void> {
         this.invalidClick.remove(event.getUILocation()); // 
         // console.log(`[zc] click, ClickItem, ${event.getUILocation().x}, ${event.getUILocation().y}`);
         if (this.isComplete) {
             console.log(`[zc] ClickItem, onClick, name:${this.nodeName}, id:${this.itemId}, isComplete`);
             return;
         }
-        super.onClick(event);
-        oops.message.dispatchEvent(ZhaoChaEvent.ITEM_CLICK, this.itemId);
-        this.getAnimation?.next();
-        super.showTalk();
+        await super.onClick(event);
+        await this.getAnimation?.next();
+        // show talk
+        await super.showTalk();
+        // event
+        oops.message.dispatchEvent(ZhaoChaEvent.ITEM_FINISH, this.itemId);
     }
 }

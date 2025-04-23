@@ -37,7 +37,7 @@ export class CountDown extends Component {
     start() {
         oops.message.on(ZhaoChaEvent.RESTART, this.onRestart, this);
         oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
-        // console.log(`[zc] CountDown, start`);
+        console.log(`[zc] CountDown, start`);
     }
 
     protected onDestroy(): void {
@@ -111,12 +111,12 @@ export class CountDown extends Component {
     }
 
     onRestart(): void {
-        this.stop();
-        this.limitTime = ZhaoChaMgr.getInstance().curStage.LimitTime;
-        console.log(`[zc] CountDown, onRestart, LimitTime:${this.limitTime}`);
-        this.refresh();
-        this.onContinue();
-        this.reg();
+        // this.stop();
+        // this.limitTime = ZhaoChaMgr.getInstance().curStage.LimitTime;
+        // console.log(`[zc] CountDown, onRestart, LimitTime:${this.limitTime}`);
+        // this.refresh();
+        // this.onContinue();
+        // this.reg();
     }
 
     onInvalidClick(): void {

@@ -12,6 +12,8 @@ import { TrZhaoChaDragItem } from 'db://assets/script/game/schema/schema';
 import { NodeHelper } from 'db://assets/script/modules/Utils/NodeExtend/NodeHelper';
 import { InvalidClick } from '../../UI/Stage/InvalidClick';
 import { InvalidDrag } from '../../UI/Stage/InvalidDrag';
+import { oops } from 'db://oops-framework/core/Oops';
+import { ZhaoChaEvent } from '../../Common/ZhaoChaEvent';
 const { ccclass, property } = _decorator;
 
 @ccclass('ZhaoCha/Game/Item/DragItem')
@@ -52,26 +54,6 @@ export class DragItem extends Component {
     }
 
     start() {
-        this.initDragEvents();
-    }
-
-    init(config: TrZhaoChaDragItem, dragId: number) {
-        this.dragId = dragId;
-        this.bindZoneId = config.ItemId;
-        this.node.name = `DragItem_${this.dragId}`;
-    }
-
-    onDestroy() {
-        const node = this.targetNode || this.node;
-        this.collider.off(Contact2DType.BEGIN_CONTACT, this.onTriggerEnter, this);
-        this.collider.off(Contact2DType.END_CONTACT, this.onTriggerExit, this);
-        node.off(Node.EventType.TOUCH_START, this.onTouchStart, this);
-        node.off(Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
-        node.off(Node.EventType.TOUCH_END, this.onTouchEnd, this);
-        node.off(Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-    }
-
-    private initDragEvents() {
         const node = this.targetNode || this.node;
         this.collider = node.getComponent(Collider2D)!;
         this.collider.on(Contact2DType.BEGIN_CONTACT, this.onTriggerEnter, this);
@@ -84,6 +66,34 @@ export class DragItem extends Component {
         node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
         // 
         node.on(Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+        oops.message.on(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
+    }
+
+    init(config: TrZhaoChaDragItem, dragId: number) {
+        this.dragId = dragId;
+        this.bindZoneId = config.ItemId;
+        this.node.name = `DragItem_${this.dragId}`;
+    }
+
+    onSectionCleanStart() {
+        const node = this.targetNode || this.node;
+        this.collider.off(Contact2DType.BEGIN_CONTACT, this.onTriggerEnter, this);
+        this.collider.off(Contact2DType.END_CONTACT, this.onTriggerExit, this);
+        node.off(Node.EventType.TOUCH_START, this.onTouchStart, this);
+        node.off(Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
+        node.off(Node.EventType.TOUCH_END, this.onTouchEnd, this);
+        node.off(Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+    }
+
+    protected onDestroy(): void {
+        const node = this.targetNode || this.node;
+        this.collider.off(Contact2DType.BEGIN_CONTACT, this.onTriggerEnter, this);
+        this.collider.off(Contact2DType.END_CONTACT, this.onTriggerExit, this);
+        node.off(Node.EventType.TOUCH_START, this.onTouchStart, this);
+        node.off(Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
+        node.off(Node.EventType.TOUCH_END, this.onTouchEnd, this);
+        node.off(Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
+        oops.message.off(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
     }
 
     onTriggerEnter(self: Collider2D, other: Collider2D) {

@@ -25,7 +25,6 @@ export class InvalidClick extends Component {
     /**  */
     public onTrigger: Function = null!;
 
-    @property(Number)
     get queueCount(): number {
         return this.queue.length;
     }
