@@ -28,18 +28,17 @@ export class FindList extends Component {
     @property(Node)
     contentNode: Node = null!;
 
-    @property(Label)
-    progress: Label = null!;
+
 
     onLoad() {
         console.log("[zc] FindList, onLoad");
-        const stage = NodeHelper.getComponentInParent(this.node, Stage)!;
-        this.progress = stage.progress;
         oops.message.on(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
     }
 
     onDestroy(): void {
         oops.message.off(ZhaoChaEvent.SECTION_LOADED, this.onSectionLoaded, this);
+        oops.message.off(ZhaoChaEvent.ITEM_FINISH, this.onItemFinish, this);
+        oops.message.off(ZhaoChaEvent.SECTION_CLEAN_START, this.onSectionCleanStart, this);
         console.log("[zc] FindList, onDestroy");
     }
 
@@ -71,8 +70,6 @@ export class FindList extends Component {
         }
         // 
         this.scrollView.scrollToLeft();
-        // 
-        this.refreshProgress(0);
     }
 
     async onItemFinish(event: string, ...args: any) {
@@ -95,8 +92,6 @@ export class FindList extends Component {
                 const scrollX = findNum / scrollStep * 100;
                 this.scrollView.scrollTo(new Vec2(scrollX, 0), 0);
             }
-            // 
-            this.refreshProgress(findNum);
         } catch (e) {
             console.error("[zc] FindList, onItemFinish, error", e);
         }
@@ -127,24 +122,8 @@ export class FindList extends Component {
         return null!;
     }
 
-    get count(): number {
+    get curCount(): number {
         if (!this.configs) return 0;
         return this.configs.length;
-    }
-
-    onRestart(): void {
-        this.refreshProgress(0);
-    }
-
-    refreshProgress(findNum: number): void {
-        try {
-            this.progress.string = `${findNum}/${this.count}`;
-            if (findNum >= this.count) {
-                console.log("[zc] FindList, refreshProgress, dispatchEvent SECTION_FINISH");
-                oops.message.dispatchEvent(ZhaoChaEvent.SECTION_FINISH, {});
-            }
-        } catch (e) {
-            console.error("[zc] FindList, refreshProgress, error", e);
-        }
     }
 }

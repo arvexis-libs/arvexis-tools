@@ -30,8 +30,6 @@ export class Stage extends Component {
     @property(ClickEffect)
     clickEffect: ClickEffect = null!;
 
-    @property(Label)
-    progress: Label = null!;
     get stageConfig(): TrZhaoChaStage {
         return ZhaoChaMgr.getInstance().curStage;
     }
@@ -159,8 +157,6 @@ export class Stage extends Component {
 
     onSectionCleanEnd(): void {
         console.log("[zc] Stage onSectionCleanEnd");
-        oops.timer.scheduleOnce(() => {
-            oops.message.dispatchEvent(ZhaoChaEvent.SECTION_START, {});
-        }, 3);
+        oops.message.dispatchEvent(ZhaoChaEvent.SECTION_START, {});
     }
 }
