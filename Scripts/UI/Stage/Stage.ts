@@ -72,7 +72,7 @@ export class Stage extends Component {
 
     async onSectionStart(): Promise<void> {
         // title
-        this.title.string = this.stageConfig.Title;
+        this.title.string = `${this.stageConfig.Name} ${this.stageConfig.Title}`;
         //  
         const prefabUrl = `StagePrefab/${this.sectionConfig.SectionPrefab}`;
         const prefab = await ZhaoChaMgr.getInstance().resourceManager.loadAsync(prefabUrl, Prefab);

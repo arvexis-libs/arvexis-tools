@@ -99,7 +99,7 @@ export class CountDown extends Component {
     }
 
     refresh() {
-        this.timeLabel.string = `${this.limitTime}`;
+        this.timeLabel.string = `:${this.limitTime}`;
     }
 
     onResume(): void {
