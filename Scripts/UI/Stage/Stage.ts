@@ -30,6 +30,9 @@ export class Stage extends Component {
     @property(ClickEffect)
     clickEffect: ClickEffect = null!;
 
+    @property(Node)
+    maskNode: Node = null!;
+
     get stageConfig(): TrZhaoChaStage {
         return ZhaoChaMgr.getInstance().curStage;
     }
@@ -93,7 +96,8 @@ export class Stage extends Component {
         //  findList
         const findListNode = instantiate(findListPrefab);
         findListNode.setParent(this.findListNode);
-        //  
+        // mask
+        this.maskNode.active = this.sectionConfig.ShowMask;
         // load
         this.loadNode.active = false;
         // 
